@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="399.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pirmas.laboratorinis.ControllersFX.NewCourseForm">
+   <children>
+      <TextField fx:id="courseId" layoutX="119.0" layoutY="20.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="courseTitle" layoutX="119.0" layoutY="66.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextArea fx:id="courseDesc" layoutX="119.0" layoutY="100.0" prefHeight="92.0" prefWidth="200.0" />
+      <DatePicker fx:id="courseExpEnd" layoutX="119.0" layoutY="216.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="12.0" layoutY="24.0" text="Project ID:" />
+      <Label layoutX="14.0" layoutY="70.0" text="Title:" />
+      <Label layoutX="12.0" layoutY="114.0" text="Description:" />
+      <Label layoutX="11.0" layoutY="220.0" text="Expected end date:" />
+      <Button layoutX="267.0" layoutY="319.0" mnemonicParsing="false" onAction="#createCourse" text="Create" />
+   </children>
+</AnchorPane>
