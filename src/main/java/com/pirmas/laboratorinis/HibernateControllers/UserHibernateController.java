@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+
 public class UserHibernateController {
 	private EntityManagerFactory emf = null;
 
@@ -132,7 +133,7 @@ public class UserHibernateController {
 					em.getCriteriaBuilder().equal(from.get("userPassword"), userPassword)
 			);
 			Query q = em.createQuery(query);
-
+			return (User)q.getResultList().get(0);
 		} catch (Exception e) {
 			System.out.println("User name or password was incorrect");
 		} finally {

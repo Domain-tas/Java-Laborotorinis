@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="399.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pirmas.laboratorinis.ControllersFX.NewCourseForm">
+<AnchorPane prefHeight="399.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pirmas.laboratorinis.ControllersFX.EditCourseForm">
    <children>
       <TextField fx:id="courseTitle" layoutX="119.0" layoutY="66.0" prefHeight="26.0" prefWidth="200.0" />
       <TextArea fx:id="courseDesc" layoutX="119.0" layoutY="100.0" prefHeight="92.0" prefWidth="200.0" />
@@ -15,6 +15,6 @@
       <Label layoutX="14.0" layoutY="70.0" text="Title:" />
       <Label layoutX="12.0" layoutY="114.0" text="Description:" />
       <Label layoutX="11.0" layoutY="220.0" text="Expected end date:" />
-      <Button fx:id="buttonText" layoutX="267.0" layoutY="319.0" mnemonicParsing="false" onAction="#createCourse" text="Create" />
+      <Button layoutX="267.0" layoutY="319.0" mnemonicParsing="false" onAction="#editCourse" text="Edit" />
    </children>
 </AnchorPane>

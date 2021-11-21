@@ -108,7 +108,7 @@ public class DatabaseControls {
 		}
 	}
 
-	public static ArrayList<Course> getCoursesByUser(String login) {
+/*	public static ArrayList<Course> getCoursesByUser(String login) {
 		Connection connection = connectToDatabase();
 		ArrayList<Course> projects = new ArrayList<>();
 		String sql = "SELECT * FROM course,users_course,users WHERE course.id = users_course.userCourses_id AND users_course.responsibleUsers_id = users.id AND users.userName = ?";
@@ -123,5 +123,5 @@ public class DatabaseControls {
 			e.printStackTrace();
 		}
 		return projects;
-	}
+	}*/
 }

@@ -4,7 +4,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,50 +13,46 @@ import java.util.List;
 public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "course_id")
 	private int id;
 	private String courseName;
 	private String courseDescription;
-	private Date dateCreated;
-	private Date endDate;
-	private Date expectedEndDate;
+	private LocalDate dateCreated;
+	private LocalDate endDate;
+	private LocalDate expectedEndDate;
 	@ManyToMany(mappedBy = "userCourses", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<User> responsibleUsers;
+	private List<User> responsibleUsers=new ArrayList<>();
 	@OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Task> projectTasks;
+	private List<Task> courseTasks = new ArrayList<>();
 
-	public Course(int id, String courseName, String courseDescription, Date dateCreated, Date endDate, Date expectedEndDate, List<User> responsibleUsers, List<Task> projectTasks) {
-		this.id = id;
+	public Course(String courseName, String courseDescription, LocalDate endDate, List<User> responsibleUsers, List<Task> projectTasks) {
+		//this.id = id;
 		this.courseName = courseName;
 		this.courseDescription = courseDescription;
-		this.dateCreated = dateCreated;
+		this.dateCreated = LocalDate.now();
 		this.endDate = endDate;
-		this.expectedEndDate = expectedEndDate;
+		this.expectedEndDate = endDate;
 		this.responsibleUsers = responsibleUsers;
-		this.projectTasks = projectTasks;
+		this.courseTasks = projectTasks;
 	}
 
 	public Course() {
 	}
 
-	public Course(int id, String courseName, String courseDescription, Date dateCreated, Date endDate, Date expectedEndDate) {
-		this.id = id;
+public Course(String courseName, String courseDescription, LocalDate endDate) {
 		this.courseName = courseName;
 		this.courseDescription = courseDescription;
-		this.dateCreated = dateCreated;
+		this.dateCreated = LocalDate.now();
 		this.endDate = endDate;
-		this.expectedEndDate = expectedEndDate;
+		//this.expectedEndLocalDate = expectedEndLocalDate;
 	}
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getCourseName() {
@@ -74,27 +71,27 @@ public class Course {
 		this.courseDescription = courseDescription;
 	}
 
-	public Date getDateCreated() {
+	public LocalDate getLocalDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setLocalDateCreated(LocalDate dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
-	public Date getExpectedEndDate() {
+	public LocalDate getExpectedEndDate() {
 		return expectedEndDate;
 	}
 
-	public void setExpectedEndDate(Date expectedEndDate) {
+	public void setExpectedEndLocalDate(LocalDate expectedEndDate) {
 		this.expectedEndDate = expectedEndDate;
 	}
 
@@ -106,11 +103,22 @@ public class Course {
 		this.responsibleUsers = responsibleUsers;
 	}
 
-	public List<Task> getProjectTasks() {
-		return projectTasks;
+	public List<Task> getCourseTasks() {
+		return courseTasks;
 	}
 
-	public void setProjectTasks(List<Task> projectTasks) {
-		this.projectTasks = projectTasks;
+	public void setCourseTasks(List<Task> projectTasks) {
+		this.courseTasks = projectTasks;
+	}
+	public void addResponsibleUsers(User user){
+		this.responsibleUsers.add(user);
+		user.getUserCourses().add(this);
+	}
+	public void removeResponsibleUsers(User user){
+		this.responsibleUsers.remove(user);
+		user.getUserCourses().remove(this);
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

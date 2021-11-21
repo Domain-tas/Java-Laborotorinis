@@ -6,30 +6,38 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+enum Privilege{
+	ADMIN, EDITOR, USER
+}
 
 @Entity
 //@Table(name="users")
 public abstract class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private int id;
 	private String userName;
 	private String userPassword;
 	private LocalDate dateCreated;
 	private LocalDate dateModified;
+	private Privilege privilege;
 	private boolean isActive;
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.REMOVE,CascadeType.PERSIST, CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Course> userCourses;
+	private List<Course> userCourses = new ArrayList<>();
 
-	public User(String userName, String userPassword, LocalDate dateCreated, LocalDate dateModified, boolean isActive) {
+	public User(String userName, String userPassword, LocalDate dateCreated, LocalDate dateModified) {
 		this.userName = userName;
 		this.userPassword = userPassword;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
-		this.isActive = isActive;
+		this.privilege=Privilege.USER;
+		this.isActive = true;
 	}
 
 	public User(String userName, String userPassword) {
@@ -63,10 +71,6 @@ public abstract class User implements Serializable {
 		return id;
 	}
 
-	public void setId(int userId) {
-		this.id = userId;
-	}
-
 	public LocalDate getDateCreated() {
 		return dateCreated;
 	}
@@ -89,5 +93,36 @@ public abstract class User implements Serializable {
 
 	public void setActive(boolean active) {
 		isActive = active;
+	}
+
+	public List<Course> getUserCourses() {
+		return userCourses;
+	}
+
+	public void setUserCourses(List<Course> userCourses) {
+		this.userCourses = userCourses;
+	}
+
+	public void addUserCourses(Course course)
+	{
+		this.userCourses.add(course);
+		course.getResponsibleUsers().add(this);
+	}
+	public void removeUserCourses(Course course)
+	{
+		this.userCourses.remove(course);
+		course.getResponsibleUsers().remove(this);
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Privilege getPrivilege() {
+		return privilege;
+	}
+
+	public void setPrivilege(Privilege privilege) {
+		this.privilege = privilege;
 	}
 }

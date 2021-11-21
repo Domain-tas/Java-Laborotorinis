@@ -19,7 +19,7 @@ public class Task implements Serializable {
     private LocalDate dateCreated;
     private LocalDate dateCompleted;
     private LocalDate deploymentDate;
-    @OneToMany(mappedBy = "parentTask", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "parentTask", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     @OrderBy("id ASC")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Task> subtasks;
@@ -32,8 +32,8 @@ public class Task implements Serializable {
     @ManyToOne
     private Course course;
 
-    public Task(int id, String taskName, String taskDesc, LocalDate dateCreated, LocalDate dateCompleted, LocalDate deploymentDate, ArrayList<Task> subtasks, Person responsible, User creator) {
-        this.id = id;
+    public Task(String taskName, String taskDesc, LocalDate dateCreated, LocalDate dateCompleted, LocalDate deploymentDate, ArrayList<Task> subtasks, Person responsible, User creator) {
+        //this.id = id;
         this.taskName = taskName;
         this.taskDesc = taskDesc;
         this.dateCreated = dateCreated;

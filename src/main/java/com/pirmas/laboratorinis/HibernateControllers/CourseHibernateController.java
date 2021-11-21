@@ -16,22 +16,33 @@ public class CourseHibernateController {
 	public CourseHibernateController(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
-
-	public static ArrayList<Course> getCoursesByUser(int id) {
-		ArrayList<Course> courseList=null;
-		return courseList;
-	}
-
 	private EntityManager getEntityManager(){
 		return emf.createEntityManager();
 	}
 
-	public void createUser(User user){
+	public List<Course> getCoursesByUserId(int id) {
+		EntityManager em = getEntityManager();
+		try {
+			CriteriaQuery query = em.getCriteriaBuilder().createQuery();
+			query.select(query.from(Course.class));
+			Query q = em.createQuery(query);
+			return q.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+		return null;
+	}
+
+	public void createCourse(Course course){
 		EntityManager em = null;
 		try{
 			em=getEntityManager();
 			em.getTransaction().begin();
-			em.persist(user);
+			em.persist(course);
 			em.getTransaction().commit();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -41,12 +52,12 @@ public class CourseHibernateController {
 			}
 		}
 	}
-	public void editUser(User user) {
+	public void editCourse(Course course) {
 		EntityManager em = null;
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
-			em.merge(user);
+			em.merge(course);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,23 +68,28 @@ public class CourseHibernateController {
 		}
 	}
 
-	public void removeUser(int id) {
+	public void removeCourse(int id) {
 		EntityManager em = null;
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
 			//Papildomai pries trinant reikia visus rysius ir priklausomybes patikrinti
-			User user = null;
+			Course course = null;
 			try {
-				user = em.getReference(User.class, id);
-				user.getId();
+				course = em.find(Course.class, id);
+				course.getId();
 			} catch (Exception e) {
 				System.out.println("No such user by given Id");
 			}
-			em.remove(user);
+			em.remove(course);
+			for (User user : course.getResponsibleUsers())
+			{
+				user.getUserCourses().remove(course);
+			}
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("No such user by given Id");
 		} finally {
 			if (em != null) {
 				em.close();
@@ -108,19 +124,19 @@ public class CourseHibernateController {
 		return null;
 	}
 
-	public User getUserById(int id) {
+	public Course getCourseById(int id) {
 		EntityManager em = null;
-		User user = null;
+		Course course = null;
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
-			user = em.getReference(User.class, id);
-			user.getId();
+			course = em.getReference(Course.class, id);
+			course.getId();
 			em.getTransaction().commit();
 		} catch (Exception e) {
-			System.out.println("No such user by given Id");
+			System.out.println("No such course by given Id");
 		}
-		return user;
+		return course;
 	}
 
 }

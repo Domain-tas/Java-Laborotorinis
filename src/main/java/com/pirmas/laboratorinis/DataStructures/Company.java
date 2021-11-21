@@ -20,7 +20,7 @@ public class Company extends User implements Serializable {
 	}
 
 	public Company(String userName, String userPassword, String companyName, String companyRepresentative, String companyEmail, String companyPhoneNumber, LocalDate dateCreated, LocalDate dateModified, boolean isActive) {
-		super(userName, userPassword, dateCreated, dateModified, isActive);
+		super(userName, userPassword, dateCreated, dateModified);
 		this.companyName = companyName;
 		this.companyRepresentative = companyRepresentative;
 		this.companyEmail = companyEmail;

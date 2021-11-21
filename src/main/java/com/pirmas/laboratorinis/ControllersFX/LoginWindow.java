@@ -56,7 +56,7 @@ public class LoginWindow implements Initializable {
 			CourseWindow courseWindow = fxmlLoader.getController();
 			//Set the current user login so that the form would know who has logged in
 			//Reminder: that is how we set data, because forms do not know what is going on in other forms
-			courseWindow.setCourseFormData(user.getId());
+			courseWindow.setCourseFormData(user);
 
 			Scene scene = new Scene(root);
 
@@ -72,50 +72,6 @@ public class LoginWindow implements Initializable {
 		}else {
 			alertMessage("Wrong input data, no such user found");
 		}
-		/*//I have a database, so I can get all the projects that are associated with the currently connected user
-		connection = DatabaseControls.connectToDatabase();
-		//You can create a simple statements to select from database by contatenting the data
-		//statement = connection.createStatement();
-		//String query = "SELECT * FROM users WHERE login = '" + loginF.getText() + "' AND password = '" + pswF.getText() + "'";
-
-		//But it makes mores sense to have a prepared statement
-		String sql = "SELECT count(*) FROM users AS u WHERE u.userName = ? AND u.userPassword = ?";
-		preparedStatement = connection.prepareStatement(sql);
-		//login is varchar --> setString, parameter 1 --> set value that was entered in loginF field
-		preparedStatement.setString(1, userName.getText());
-		//password is varchar --> setString, parameter 2 --> set value that was entered in pswF field
-		preparedStatement.setString(2, userPassword.getText());
-		//I have a select query so I expect a result. In my case I just check the count, if more > 0 --> user exists and password i correct
-		ResultSet rs = preparedStatement.executeQuery();
-		while (rs.next()) {
-			//I have a count returned that is in column 1
-			if (rs.getInt(1) > 0) {
-				//Record exists --> load projects form. First get all resources associated with this form
-				FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("CourseWindow.fxml"));
-				//I must load those resources if I want to access controller for that form
-				Parent root = fxmlLoader.load();
-
-				//Get controller for project form
-				CourseWindow courseWindow = fxmlLoader.getController();
-				//Set the current user login so that the form would know who has logged in
-				//Reminder: that is how we set data, because forms do not know what is going on in other forms
-				courseWindow.setCourseFormData(courseManagementSystem, userName.getText());
-
-				Scene scene = new Scene(root);
-
-				//This code will load the scene in current window
-				//Stage stage = (Stage) loginF.getScene().getWindow();
-				//This code will open a new window
-				Stage stage = new Stage();
-				stage.setTitle("Project Management System");
-				stage.setScene(scene);
-				//These two lines of code ensure that I cannot work with previous window while new window is open
-				stage.initModality(Modality.APPLICATION_MODAL);
-				stage.showAndWait();
-			} else {
-				alertMessage("Wrong input data, no such user found");
-			}
-		}*/
 	}
 
 	@FXML

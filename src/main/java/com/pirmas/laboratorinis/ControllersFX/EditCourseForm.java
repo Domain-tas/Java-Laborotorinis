@@ -1,19 +1,14 @@
 package com.pirmas.laboratorinis.ControllersFX;
 
 import com.pirmas.laboratorinis.DataStructures.Course;
-import com.pirmas.laboratorinis.DataStructures.Task;
 import com.pirmas.laboratorinis.DataStructures.User;
 import com.pirmas.laboratorinis.HibernateControllers.CourseHibernateController;
-import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
-import com.pirmas.laboratorinis.nenaudojami.DatabaseControls;
-import com.pirmas.laboratorinis.DataStructures.CourseManagementSystem;
 import com.pirmas.laboratorinis.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -22,42 +17,40 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class NewCourseForm {
+public class EditCourseForm {
 	@FXML
 	public TextField courseTitle;
 	public TextArea courseDesc;
 	public DatePicker courseExpEnd;
-	public Button buttonText;
 
+	private Course course;
 	private User user;
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
 	CourseHibernateController courseHibernateController = new CourseHibernateController(entityManagerFactory);
-	UserHibernateController userHibernateController = new UserHibernateController(entityManagerFactory);
 
-	public void setCourseFormData(User user) {
+	public void setCourseFormData(Course course, User user) {
 		this.user = user;
+		this.course = course;
 	}
 
-	public void createCourse(ActionEvent actionEvent) throws IOException {
-		Course course = new Course(courseTitle.getText(), courseDesc.getText(), courseExpEnd.getValue());
-		courseHibernateController.createCourse(course);
-		user.addUserCourses(course);
-		userHibernateController.editUser(user);
+	public void editCourse(ActionEvent actionEvent)  throws IOException {
+		course.setCourseName(courseTitle.getText());
+		course.setCourseDescription(courseDesc.getText());
+		course.setEndDate(courseExpEnd.getValue());
+		courseHibernateController.editCourse(course);
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("CourseWindow.fxml"));
 		Parent root = fxmlLoader.load();
+
 		CourseWindow mainCourseWindow = fxmlLoader.getController();
 		mainCourseWindow.setUser(user);
+
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) courseTitle.getScene().getWindow();
 		//stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(scene);
 		stage.show();
 	}
+
 }
