@@ -10,21 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Task implements Serializable {
+public class Folder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String taskName;
-    private String taskDesc;
+    private String folderName;
+    private String folderDesc;
     private LocalDate dateCreated;
     private LocalDate dateCompleted;
     private LocalDate deploymentDate;
-    @OneToMany(mappedBy = "parentTask", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "parentFolder", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @OrderBy("id ASC")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Task> subtasks;
+    private List<Folder> subFolders;
     @ManyToOne
-    private Task parentTask;
+    private Folder parentFolder;
     @ManyToOne
     private Person responsible;
     @ManyToOne
@@ -32,27 +32,26 @@ public class Task implements Serializable {
     @ManyToOne
     private Course course;
 
-    public Task(String taskName, String taskDesc, LocalDate dateCreated, LocalDate dateCompleted, LocalDate deploymentDate, ArrayList<Task> subtasks, Person responsible, User creator) {
-        //this.id = id;
-        this.taskName = taskName;
-        this.taskDesc = taskDesc;
+    public Folder(String folderName, String folderDesc, LocalDate dateCreated, LocalDate dateCompleted, LocalDate deploymentDate, ArrayList<Folder> subFolders, Person responsible, User creator) {
+        this.folderName = folderName;
+        this.folderDesc = folderDesc;
         this.dateCreated = dateCreated;
         this.dateCompleted = dateCompleted;
         this.deploymentDate = deploymentDate;
-        this.subtasks = subtasks;
+        this.subFolders = subFolders;
         this.responsible = responsible;
         this.creator = creator;
     }
 
-    public Task(String taskName, String taskDesc, Person responsible, User creator) {
-        this.taskName = taskName;
-        this.taskDesc = taskDesc;
+    public Folder(String taskName, String folderDesc, Person responsible, User creator) {
+        this.folderName = taskName;
+        this.folderDesc = folderDesc;
         this.responsible = responsible;
         this.creator = creator;
         this.dateCreated = LocalDate.now();
     }
 
-    public Task() {
+    public Folder() {
 
     }
 
@@ -64,20 +63,20 @@ public class Task implements Serializable {
         this.id = id;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getFolderName() {
+        return folderName;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setFolderName(String taskName) {
+        this.folderName = taskName;
     }
 
-    public String getTaskDesc() {
-        return taskDesc;
+    public String getFolderDesc() {
+        return folderDesc;
     }
 
-    public void setTaskDesc(String taskDesc) {
-        this.taskDesc = taskDesc;
+    public void setFolderDesc(String taskDesc) {
+        this.folderDesc = taskDesc;
     }
 
     public LocalDate getDateCreated() {
@@ -104,12 +103,12 @@ public class Task implements Serializable {
         this.deploymentDate = deploymentDate;
     }
 
-    public List<Task> getSubtasks() {
-        return subtasks;
+    public List<Folder> getSubFolders() {
+        return subFolders;
     }
 
-    public void setSubtasks(List<Task> subtasks) {
-        this.subtasks = subtasks;
+    public void setSubFolders(List<Folder> subtasks) {
+        this.subFolders = subtasks;
     }
 
     public Person getResponsible() {
@@ -128,12 +127,12 @@ public class Task implements Serializable {
         this.creator = creator;
     }
 
-    public Task getParentTask() {
-        return parentTask;
+    public Folder getParentTask() {
+        return parentFolder;
     }
 
-    public void setParentTask(Task parentTask) {
-        this.parentTask = parentTask;
+    public void setParentTask(Folder parentFolder) {
+        this.parentFolder = parentFolder;
     }
 
     public Course getCourse() {

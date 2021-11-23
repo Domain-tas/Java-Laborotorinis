@@ -2,7 +2,6 @@ package com.pirmas.laboratorinis.HibernateControllers;
 
 import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
-import org.hibernate.Criteria;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,10 +11,10 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 
-public class UserHibernateController {
+public class PersonHibernateController {
 	private EntityManagerFactory emf = null;
 
-	public UserHibernateController(EntityManagerFactory emf) {
+	public PersonHibernateController(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
 
@@ -79,7 +78,7 @@ public class UserHibernateController {
 	}
 
 	public List<User> getAllUsers() {
-		return getAllUsers(true, -1, -1);
+		return getAllUsers(false, -1, -1);
 	}
 
 	public List<User> getAllUsers(boolean all, int resMax, int resFirst) {
@@ -105,19 +104,19 @@ public class UserHibernateController {
 		return null;
 	}
 
-	public User getUserById(int id) {
+	public Person getPersonById(int id) {
 		EntityManager em = null;
-		User user = null;
+		Person person = null;
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
-			user = em.getReference(User.class, id);
-			user.getId();
+			person = em.getReference(Person.class, id);
+			person.getId();
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println("No such user by given Id");
 		}
-		return user;
+		return person;
 	}
 
 	public User getUserByLogin(String userName, String userPassword) {

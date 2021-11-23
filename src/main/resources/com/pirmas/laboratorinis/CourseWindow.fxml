@@ -27,20 +27,21 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Courses">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#newCourseForm" text="Add" />
-                        <MenuItem mnemonicParsing="false" onAction="#editSelected" text="Edit" />
-                        <MenuItem mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
+                  <MenuItem fx:id="showAllCourseMenu" mnemonicParsing="false" onAction="#loadAllCourses" text="Show All" />
+                        <MenuItem fx:id="addItemCourseMenu" mnemonicParsing="false" onAction="#newCourseForm" text="Add" />
+                        <MenuItem fx:id="editItemCourseMenu" mnemonicParsing="false" onAction="#editSelected" text="Edit" />
+                        <MenuItem fx:id="deleteItemCourseMenu" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Tasks">
+                <Menu mnemonicParsing="false" text="Folders">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="MyTasks" />
+                        <MenuItem mnemonicParsing="false" text="MyFolders" />
                         <MenuItem mnemonicParsing="false" text="Statistics" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="My account">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Personal" />
+                        <MenuItem mnemonicParsing="false" onAction="#editPersonalForm" text="Personal" />
                         <MenuItem mnemonicParsing="false" onAction="#loadAllUsersForm" text="All Users" />
                     </items>
                 </Menu>
@@ -51,6 +52,6 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <Button layoutX="24.0" layoutY="349.0" mnemonicParsing="false" onAction="#newCourseForm" prefHeight="26.0" prefWidth="128.0" text="Create new course" />
+        <Button fx:id="newCourseButton" layoutX="24.0" layoutY="349.0" mnemonicParsing="false" onAction="#newCourseForm" prefHeight="26.0" prefWidth="128.0" text="Create new course" />
     </children>
 </AnchorPane>

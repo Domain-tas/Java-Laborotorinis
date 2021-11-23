@@ -1,5 +1,10 @@
 package com.pirmas.laboratorinis.ControllersFX;
 
+import com.pirmas.laboratorinis.DataStructures.Company;
+import com.pirmas.laboratorinis.DataStructures.Person;
+import com.pirmas.laboratorinis.DataStructures.User;
+import com.pirmas.laboratorinis.HibernateControllers.CompanyHibernateController;
+import com.pirmas.laboratorinis.HibernateControllers.PersonHibernateController;
 import com.pirmas.laboratorinis.nenaudojami.DatabaseControls;
 import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
 import javafx.collections.FXCollections;
@@ -18,6 +23,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserForm implements Initializable {
@@ -35,11 +41,18 @@ public class UserForm implements Initializable {
 	public TableColumn<UserTableParameters, String> colAddress;
 	public TableView usersTable;
 	public TableColumn<UserTableParameters, Void> dummyField;
+	public TableColumn colPrivilege;
 
 	private ObservableList<UserTableParameters> data = FXCollections.observableArrayList();
 
-	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ProjectManagementSystem");
+	private User user;
+	private Person person;
+	private Company company;
+
+	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
 	UserHibernateController userHibController = new UserHibernateController(entityManagerFactory);
+	PersonHibernateController personHibController = new PersonHibernateController(entityManagerFactory);
+	CompanyHibernateController companyHibController = new CompanyHibernateController(entityManagerFactory);
 
 
 	@Override
@@ -55,9 +68,12 @@ public class UserForm implements Initializable {
 					t.getTableView().getItems().get(
 							t.getTablePosition().getRow()).setLogin(t.getNewValue());
 					//Update e record on change
-					DatabaseControls.updateField("login", t.getTableView().getItems().get(
-							t.getTablePosition().getRow()).getLogin(), t.getTableView().getItems().get(
-							t.getTablePosition().getRow()).getUserId());
+					user=userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+					user.setUserName(t.getTableView().getItems().get(t.getTablePosition().getRow()).getLogin());
+					userHibController.editUser(user);
+//					DatabaseControls.updateField("login", t.getTableView().getItems().get(
+//							t.getTablePosition().getRow()).getLogin(), t.getTableView().getItems().get(
+//							t.getTablePosition().getRow()).getUserId());
 				}
 		);
 		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -68,8 +84,11 @@ public class UserForm implements Initializable {
 					t.getTableView().getItems().get(
 							t.getTablePosition().getRow()).setName(newName);
 					//Update in db
-					DatabaseControls.updateField("`person_name`", newName, t.getTableView().getItems().get(
-							t.getTablePosition().getRow()).getUserId());
+					person=personHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+					person.setPersonName(newName);
+					userHibController.editUser(person);
+//					DatabaseControls.updateField("`person_name`", newName, t.getTableView().getItems().get(
+//							t.getTablePosition().getRow()).getUserId());
 				}
 		);
 		colSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -80,14 +99,24 @@ public class UserForm implements Initializable {
 					t.getTableView().getItems().get(
 							t.getTablePosition().getRow()).setSurname(t.getNewValue());
 					//Update db
-					DatabaseControls.updateField("`person_surname`", newSurname, t.getTableView().getItems().get(
-							t.getTablePosition().getRow()).getUserId());}
+					person=personHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+					person.setPersonName(newSurname);
+					userHibController.editUser(person);
+//					DatabaseControls.updateField("`person_surname`", newSurname, t.getTableView().getItems().get(
+//							t.getTablePosition().getRow()).getUserId());
+					}
 		);
 		colPos.setCellValueFactory(new PropertyValueFactory<>("position"));
 		colPos.setCellFactory(TextFieldTableCell.forTableColumn());
 		colPos.setOnEditCommit(
-				t -> t.getTableView().getItems().get(
-						t.getTablePosition().getRow()).setPosition(t.getNewValue())
+				t -> {
+					t.getTableView().getItems().get(
+							t.getTablePosition().getRow()).setPosition(t.getNewValue());
+					person=personHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+					person.setPersonName(t.getTableView().getItems().get(t.getTablePosition().getRow()).getPosition());
+					userHibController.editUser(person);
+				}
+
 		);
 		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -132,9 +161,9 @@ public class UserForm implements Initializable {
 						button.setOnAction((ActionEvent event) -> {
 							UserTableParameters data = getTableView().getItems().get(getIndex());
 							//Delete user by id
-							DatabaseControls.deleteUser(data.getUserId());
+							//DatabaseControls.deleteUser(data.getUserId());
 							//Hibernate version:
-							//userHibController.removeUser(data.getUserId());
+							userHibController.removeUser(data.getUserId());
 
 							try {
 								//Immediately after delete, update info in table
@@ -171,7 +200,25 @@ public class UserForm implements Initializable {
 	private void loadUsers() throws SQLException {
 		usersTable.setEditable(true);
 		usersTable.getItems().clear();
-		userHibController.getAllUsers();
+		List<User> users = userHibController.getAllUsers();
+		for (User user: users) {
+			person=(Person)user;
+			UserTableParameters userTableParameters = new UserTableParameters();
+			userTableParameters.setUserId(user.getId());
+			userTableParameters.setLogin(user.getUserName());
+			userTableParameters.setDateCreated(user.getDateCreated().toString());
+			userTableParameters.setDateModified(user.getDateModified().toString());
+			userTableParameters.setName(person.getPersonName());
+			userTableParameters.setSurname(person.getPersonSurname());
+			userTableParameters.setPosition(person.getPersonPosition());
+			userTableParameters.setEmail(person.getPersonEmail());
+//			userTableParameters.setCompany(rs.getString(11));
+//			userTableParameters.setRepresentative(rs.getString(12));
+//			userTableParameters.setAddress(rs.getString(13));
+//			userTableParameters.setPhone(rs.getString(14));
+			data.add(userTableParameters);
+		}
+		usersTable.setItems(data);
 		/*connection = DatabaseControls.connectToDatabase();
 		String sql = "SELECT * FROM users AS u WHERE u.is_active = true";
 		statement = connection.createStatement();

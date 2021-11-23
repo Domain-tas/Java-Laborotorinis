@@ -19,7 +19,7 @@ public class Person extends User implements Serializable {
 	@OneToMany(mappedBy = "responsible", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Task> myTasks;
+	private List<Folder> myFolders;
 
 	public Person(String personName, String personSurname, String personEmail, String personPosition, String username, String userPassword)
 	{
@@ -63,12 +63,12 @@ public class Person extends User implements Serializable {
 		this.personPosition = personPhoneNumber;
 	}
 
-	public List<Task> getMyTasks() {
-		return myTasks;
+	public List<Folder> getMyTasks() {
+		return myFolders;
 	}
 
-	public void setMyTasks(List<Task> myTasks) {
-		this.myTasks = myTasks;
+	public void setMyTasks(List<Folder> myFolders) {
+		this.myFolders = myFolders;
 	}
 
 }

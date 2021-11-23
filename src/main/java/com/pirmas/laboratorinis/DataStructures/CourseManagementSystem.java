@@ -1,9 +1,9 @@
 package com.pirmas.laboratorinis.DataStructures;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,13 @@ public class CourseManagementSystem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String version;
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OrderBy("id ASC")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> allUsers;
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OrderBy("id ASC")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Course> allCourses;
 	public CourseManagementSystem(){}
 

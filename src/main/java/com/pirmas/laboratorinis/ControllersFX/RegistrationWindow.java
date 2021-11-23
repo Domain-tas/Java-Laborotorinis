@@ -53,16 +53,14 @@ public class RegistrationWindow implements Initializable {
 		if (personButton.isSelected()) {
 			Person person = new Person(nameField.getText(), surnameField.getText(), emailFieldPerson.getText(), positionPerson.getText(), userNameField.getText(), passwordField.getText());
 			userHibernateController.createUser(person);
-			//registrationSuccessful(true);
 		}else{
 			Company company = new Company(userNameField.getText(), passwordField.getText(), companyName.getText(), representativeName.getText(), addressFieldCompany.getText(), phoneNumberCompany.getText());
 			userHibernateController.createUser(company);
-			//registrationSuccessful(true);
 		}
-		registrationSuccessful(false);
+		registrationSuccessful();
 	}
 
-	private void registrationSuccessful(boolean isSuccesful) throws IOException {
+	private void registrationSuccessful() throws IOException {
 		PopUp popUp=new PopUp();
 		popUp.Display("Success", "Registration was successful");
 		returnToPrevious();

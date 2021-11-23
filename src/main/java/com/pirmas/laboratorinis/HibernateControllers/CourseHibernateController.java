@@ -97,15 +97,15 @@ public class CourseHibernateController {
 		}
 	}
 
-	public List<User> getAllUsers() {
-		return getAllUsers(false, -1, -1);
+	public List<Course> getAllCourses() {
+		return getAllCourses(false, -1, -1);
 	}
 
-	public List<User> getAllUsers(boolean all, int resMax, int resFirst) {
+	public List<Course> getAllCourses(boolean all, int resMax, int resFirst) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery query = em.getCriteriaBuilder().createQuery();
-			query.select(query.from(User.class));
+			query.select(query.from(Course.class));
 			Query q = em.createQuery(query);
 
 			if (!all) {

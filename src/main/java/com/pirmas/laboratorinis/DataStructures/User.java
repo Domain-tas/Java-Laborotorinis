@@ -9,10 +9,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-enum Privilege{
-	ADMIN, EDITOR, USER
-}
-
 @Entity
 //@Table(name="users")
 public abstract class User implements Serializable {
@@ -45,6 +41,7 @@ public abstract class User implements Serializable {
 		this.userPassword = userPassword;
 		this.dateCreated = LocalDate.now();
 		this.dateModified = LocalDate.now();
+		this.privilege=Privilege.USER;
 		this.isActive = true;
 	}
 

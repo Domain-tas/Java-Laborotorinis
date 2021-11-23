@@ -53,10 +53,12 @@ public class LoginWindow implements Initializable {
 			Parent root = fxmlLoader.load();
 
 			//Get controller for project form
-			CourseWindow courseWindow = fxmlLoader.getController();
+			CourseWindow courseWindow=fxmlLoader.getController();
+			//CourseWindow courseWindow = new CourseWindow();
 			//Set the current user login so that the form would know who has logged in
 			//Reminder: that is how we set data, because forms do not know what is going on in other forms
 			courseWindow.setCourseFormData(user);
+			//courseWindow=fxmlLoader.getController();
 
 			Scene scene = new Scene(root);
 
@@ -70,7 +72,7 @@ public class LoginWindow implements Initializable {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
 		}else {
-			alertMessage("Wrong input data, no such user found");
+			UtilityWindows.alertMessage("Wrong input data, no such user found");
 		}
 	}
 
@@ -88,16 +90,5 @@ public class LoginWindow implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 	}
-//		User user = new User(userName.getText(), userPassword.getText());
-//		System.out.println("New user has been created! Name: " + user.getUserName() + " Password: " + user.getUserPassword());
-
-	public static void alertMessage(String s) {
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText("Message text:");
-		alert.setContentText(s);
-		alert.initModality(Modality.APPLICATION_MODAL);
-		alert.showAndWait();
 	}
-}
 

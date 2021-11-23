@@ -4,13 +4,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="494.0" prefWidth="909.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.pirmas.laboratorinis.ControllersFX.UserForm">
+<AnchorPane prefHeight="494.0" prefWidth="909.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pirmas.laboratorinis.ControllersFX.UserForm">
    <children>
       <TableView fx:id="usersTable" prefHeight="494.0" prefWidth="978.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="40.000030517578125" text="id" />
+            <TableColumn fx:id="colPrivilege" prefWidth="75.0" text="Privilege" />
           <TableColumn fx:id="colLogin" prefWidth="67.20001220703125" text="login" />
             <TableColumn fx:id="colCreated" prefWidth="90.39999389648438" text="dateCreated" />
             <TableColumn fx:id="colModified" prefWidth="96.0" text="dateModified" />
