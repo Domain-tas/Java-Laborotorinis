@@ -3,6 +3,7 @@ package com.pirmas.laboratorinis.ControllersFX;
 import com.pirmas.laboratorinis.DataStructures.Course;
 import com.pirmas.laboratorinis.DataStructures.User;
 import com.pirmas.laboratorinis.HibernateControllers.CourseHibernateController;
+import com.pirmas.laboratorinis.HibernateControllers.FolderHibernateController;
 import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
 import com.pirmas.laboratorinis.MainApplication;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class NewCourseForm {
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
 	CourseHibernateController courseHibernateController = new CourseHibernateController(entityManagerFactory);
 	UserHibernateController userHibernateController = new UserHibernateController(entityManagerFactory);
+	FolderHibernateController folderHibernateController = new FolderHibernateController(entityManagerFactory);
 
 	public void setCourseFormData(User user) {
 		this.user = user;

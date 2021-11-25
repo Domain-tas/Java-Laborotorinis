@@ -31,7 +31,7 @@
       <Button fx:id="registerButton" layoutX="325.0" layoutY="540.0" mnemonicParsing="false" onAction="#validateRegisterUser" text="Register" />
       <TextField fx:id="emailFieldPerson" layoutX="52.0" layoutY="438.0" />
       <TextField fx:id="positionPerson" layoutX="52.0" layoutY="489.0" />
-      <Label layoutX="54.0" layoutY="421.0" text="E-mail adress" />
+      <Label layoutX="54.0" layoutY="421.0" text="E-mail address" />
       <Label layoutX="54.0" layoutY="472.0" text="Phone Number" />
       <TextField fx:id="companyName" layoutX="396.0" layoutY="335.0" />
       <TextField fx:id="representativeName" layoutX="396.0" layoutY="386.0" />
@@ -39,8 +39,8 @@
       <TextField fx:id="phoneNumberCompany" layoutX="396.0" layoutY="489.0" />
       <Label layoutX="461.0" layoutY="318.0" text="Company name" />
       <Label layoutX="433.0" layoutY="369.0" text="Representative name" />
-      <Label layoutX="455.0" layoutY="421.0" text="Company Adress" />
+      <Label layoutX="455.0" layoutY="421.0" text="Company Address" />
       <Label layoutX="467.0" layoutY="472.0" text="Phone number" />
-      <Button fx:id="cancelButton" layoutX="224.0" layoutY="540.0" mnemonicParsing="false" onAction="#returnToLogin" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="224.0" layoutY="540.0" mnemonicParsing="false" onAction="#returnToLogin" text="Return" />
    </children>
 </AnchorPane>

@@ -16,6 +16,8 @@ public abstract class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private int id;
+	@Column(insertable = false, updatable = false)
+	private String dtype;
 	private String userName;
 	private String userPassword;
 	private LocalDate dateCreated;
@@ -121,5 +123,9 @@ public abstract class User implements Serializable {
 
 	public void setPrivilege(Privilege privilege) {
 		this.privilege = privilege;
+	}
+
+	public String getDtype() {
+		return dtype;
 	}
 }

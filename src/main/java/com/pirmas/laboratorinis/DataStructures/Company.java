@@ -8,22 +8,22 @@ import java.time.LocalDate;
 public class Company extends User implements Serializable {
 	private String companyName;
 	private String companyRepresentative;
-	private String companyEmail;
+	private String companyAddress;
 	private String companyPhoneNumber;
 
-	public Company(String userName, String userPassword, String companyName, String companyRepresentative, String companyEmail, String companyPhoneNumber) {
+	public Company(String userName, String userPassword, String companyName, String companyRepresentative, String companyAddress, String companyPhoneNumber) {
 		super(userName, userPassword);
 		this.companyName = companyName;
 		this.companyRepresentative = companyRepresentative;
-		this.companyEmail = companyEmail;
+		this.companyAddress = companyAddress;
 		this.companyPhoneNumber = companyPhoneNumber;
 	}
 
-	public Company(String userName, String userPassword, String companyName, String companyRepresentative, String companyEmail, String companyPhoneNumber, LocalDate dateCreated, LocalDate dateModified, boolean isActive) {
+	public Company(String userName, String userPassword, String companyName, String companyRepresentative, String companyAddress, String companyPhoneNumber, LocalDate dateCreated, LocalDate dateModified, boolean isActive) {
 		super(userName, userPassword, dateCreated, dateModified);
 		this.companyName = companyName;
 		this.companyRepresentative = companyRepresentative;
-		this.companyEmail = companyEmail;
+		this.companyAddress = companyAddress;
 		this.companyPhoneNumber = companyPhoneNumber;
 	}
 
@@ -45,12 +45,12 @@ public class Company extends User implements Serializable {
 		this.companyRepresentative = companyRepresentative;
 	}
 
-	public String getCompanyEmail() {
-		return companyEmail;
+	public String getCompanyAddress() {
+		return companyAddress;
 	}
 
-	public void setCompanyEmail(String companyEmail) {
-		this.companyEmail = companyEmail;
+	public void setCompanyAddress(String companyAddress) {
+		this.companyAddress = companyAddress;
 	}
 
 	public String getCompanyPhoneNumber() {

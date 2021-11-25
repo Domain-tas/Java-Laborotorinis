@@ -63,11 +63,11 @@ public class Person extends User implements Serializable {
 		this.personPosition = personPhoneNumber;
 	}
 
-	public List<Folder> getMyTasks() {
+	public List<Folder> getMyFolders() {
 		return myFolders;
 	}
 
-	public void setMyTasks(List<Folder> myFolders) {
+	public void setMyFolders(List<Folder> myFolders) {
 		this.myFolders = myFolders;
 	}
 

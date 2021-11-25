@@ -50,19 +50,28 @@ public class RegistrationWindow implements Initializable {
 
 	@FXML
 	public void validateRegisterUser(ActionEvent actionEvent) throws IOException {
-		if (personButton.isSelected()) {
-			Person person = new Person(nameField.getText(), surnameField.getText(), emailFieldPerson.getText(), positionPerson.getText(), userNameField.getText(), passwordField.getText());
-			userHibernateController.createUser(person);
-		}else{
-			Company company = new Company(userNameField.getText(), passwordField.getText(), companyName.getText(), representativeName.getText(), addressFieldCompany.getText(), phoneNumberCompany.getText());
-			userHibernateController.createUser(company);
-		}
-		registrationSuccessful();
+			if(!passwordField.getText().equals(repeatPasswordField.getText()))
+			{
+				UtilityWindows.alertMessage("Your passwords didn't match");
+				return;
+			}
+			if (personButton.isSelected()) {
+				Person person = new Person(nameField.getText(), surnameField.getText(), emailFieldPerson.getText(), positionPerson.getText(), userNameField.getText(), passwordField.getText());
+				userHibernateController.createUser(person);
+			} else {
+				Company company = new Company(userNameField.getText(), passwordField.getText(), companyName.getText(), representativeName.getText(), addressFieldCompany.getText(), phoneNumberCompany.getText());
+				userHibernateController.createUser(company);
+			}
+		registrationSuccessful(true);
 	}
 
-	private void registrationSuccessful() throws IOException {
-		PopUp popUp=new PopUp();
-		popUp.Display("Success", "Registration was successful");
+	private void registrationSuccessful(boolean isSuccessful) throws IOException {
+		if (isSuccessful)
+			UtilityWindows.alertMessage("Registration was successful");
+		else
+			UtilityWindows.alertMessage("Registration failed");
+//		PopUp popUp=new PopUp();
+//		popUp.Display("Success", "Registration was successful");
 		returnToPrevious();
 	}
 
@@ -71,7 +80,7 @@ public class RegistrationWindow implements Initializable {
 		returnToPrevious();
 	}
 
-	private void returnToPrevious() throws IOException{
+	private void returnToPrevious() throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("LoginWindow.fxml"));
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene(root);

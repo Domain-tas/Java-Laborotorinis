@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -65,9 +66,29 @@ public class CourseWindow {
 		{
 			newCourseButton.setVisible(false);
 			addItem.setVisible(false);
+			editItem.setVisible(false);
 			addItemCourseMenu.setVisible(false);
 			editItemCourseMenu.setVisible(false);
 			deleteItemCourseMenu.setVisible(false);
+			myCourses.getItems().clear();
+			List<Course> courseDatabase = userHibernateController.getUserById(user.getId()).getUserCourses();
+			for (Course course : courseDatabase) {
+				myCourses.getItems().add(course.getId() + " : " + course.getCourseName());
+			}
+		}else if(user.getPrivilege()== Privilege.EDITOR)
+		{
+			myCourses.getItems().clear();
+			List<Course> courseDatabase = userHibernateController.getUserById(user.getId()).getUserCourses();
+			for (Course course : courseDatabase) {
+				myCourses.getItems().add(course.getId() + " : " + course.getCourseName());
+			}
+		}else if (user.getPrivilege()==Privilege.ADMIN)
+		{
+			myCourses.getItems().clear();
+			List<Course> courseDatabase = courseHibernateController.getAllCourses();
+			for (Course course : courseDatabase) {
+				myCourses.getItems().add(course.getId() + " : " + course.getCourseName());
+			}
 		}
 		myCourses.getItems().clear();
 		List<Course> courseDatabase = userHibernateController.getUserById(user.getId()).getUserCourses();
@@ -105,9 +126,11 @@ public class CourseWindow {
 		fillTables();
 	}
 
-	public void loadAllUsersForm(ActionEvent actionEvent) throws IOException {
+	public void loadAllUsersForm(ActionEvent actionEvent) throws IOException, SQLException {
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("UserForm.fxml"));
 		Parent root = fxmlLoader.load();
+		UserForm userForm = fxmlLoader.getController();
+		userForm.setUser(user);
 		Scene scene = new Scene(root);
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
@@ -123,16 +146,16 @@ public class CourseWindow {
 		}
 	}
 
-	public void editPersonalForm(ActionEvent actionEvent) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("EditCourseForm.fxml"));
-		Parent root = fxmlLoader.load();
-		EditPersonForm editPersonForm = fxmlLoader.getController();
-		editPersonForm.changeName.setText(user.getUserName());
-		editPersonForm.changePassword.setText(user.getUserPassword());
-		editPersonForm.setPersonFormData(user);
-		Scene scene = new Scene(root);
-		Stage stage = (Stage) myCourses.getScene().getWindow();
-		stage.setScene(scene);
-		stage.show();
-	}
+//	public void editPersonalForm(ActionEvent actionEvent) throws IOException {
+//		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("EditCourseForm.fxml"));
+//		Parent root = fxmlLoader.load();
+//		EditPersonForm editPersonForm = fxmlLoader.getController();
+//		editPersonForm.changeName.setText(user.getUserName());
+//		editPersonForm.changePassword.setText(user.getUserPassword());
+//		editPersonForm.setPersonFormData(user);
+//		Scene scene = new Scene(root);
+//		Stage stage = (Stage) myCourses.getScene().getWindow();
+//		stage.setScene(scene);
+//		stage.show();
+//	}
 }

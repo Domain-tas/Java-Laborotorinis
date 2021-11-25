@@ -98,7 +98,7 @@ public class CourseHibernateController {
 	}
 
 	public List<Course> getAllCourses() {
-		return getAllCourses(false, -1, -1);
+		return getAllCourses(true, -1, -1);
 	}
 
 	public List<Course> getAllCourses(boolean all, int resMax, int resFirst) {

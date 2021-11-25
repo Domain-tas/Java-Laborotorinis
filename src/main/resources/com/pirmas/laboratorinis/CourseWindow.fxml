@@ -35,13 +35,12 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Folders">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="MyFolders" />
+                        <MenuItem mnemonicParsing="false" onAction="#showMyFolders" text="MyFolders" />
                         <MenuItem mnemonicParsing="false" text="Statistics" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="My account">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#editPersonalForm" text="Personal" />
                         <MenuItem mnemonicParsing="false" onAction="#loadAllUsersForm" text="All Users" />
                     </items>
                 </Menu>

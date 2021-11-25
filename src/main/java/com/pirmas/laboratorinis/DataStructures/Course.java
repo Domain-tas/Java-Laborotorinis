@@ -20,6 +20,7 @@ public class Course {
 	private LocalDate dateCreated;
 	private LocalDate endDate;
 	private LocalDate expectedEndDate;
+	//private User creator;
 	@ManyToMany(mappedBy = "userCourses", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)

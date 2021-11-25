@@ -1,5 +1,6 @@
 package com.pirmas.laboratorinis.HibernateControllers;
 
+import com.pirmas.laboratorinis.DataStructures.Company;
 import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
 import org.hibernate.Criteria;
@@ -143,6 +144,34 @@ public class UserHibernateController {
 			}
 		}
 		return user;
+	}
+	public Person getPersonById(int id) {
+		EntityManager em = null;
+		Person person = null;
+		try {
+			em = getEntityManager();
+			em.getTransaction().begin();
+			person = em.getReference(Person.class, id);
+			person.getId();
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			System.out.println("No such user by given Id");
+		}
+		return person;
+	}
+	public Company getCompanyById(int id) {
+		EntityManager em = null;
+		Company company = null;
+		try {
+			em = getEntityManager();
+			em.getTransaction().begin();
+			company = em.getReference(Company.class, id);
+			company.getId();
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			System.out.println("No such company by given Id");
+		}
+		return company;
 	}
 
 }

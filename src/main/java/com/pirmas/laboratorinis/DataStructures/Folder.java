@@ -127,11 +127,11 @@ public class Folder implements Serializable {
         this.creator = creator;
     }
 
-    public Folder getParentTask() {
+    public Folder getParentFolder() {
         return parentFolder;
     }
 
-    public void setParentTask(Folder parentFolder) {
+    public void setParentFolder(Folder parentFolder) {
         this.parentFolder = parentFolder;
     }
 
