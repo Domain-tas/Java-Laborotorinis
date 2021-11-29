@@ -253,9 +253,10 @@ public class CourseWindow {
 		}*/
 		if(parentFolder!=null) {
 
-			TreeItem<String> branch =new TreeItem<>(parentFolder.getFolderName() + " : " + parentFolder.getId());
-			root.getChildren().add(branch);
-			displayTreeViewV2(parentFolder, branch);
+			//TreeItem<String> branch =new TreeItem<>(parentFolder.getFolderName() + " : " + parentFolder.getId());
+			//root.getChildren().add(branch);
+			//displayTreeViewV2(parentFolder, branch);
+			root.getChildren().add(displayTreeViewV2(parentFolder));
 			//root.getChildren().add(branches);
 			UtilityWindows.alertMessage("OK");
 			foldersTreeView.setRoot(root);
@@ -332,18 +333,40 @@ public class CourseWindow {
 //		stage.show();
 //	}
 
-	private TreeItem<String> displayTreeViewV2(Folder rootFolder, TreeItem<String> root) {
+/*	private TreeItem<String> displayTreeViewV2(Folder rootFolder, TreeItem<String> root) {
+		TreeItem<String> result = new TreeItem<>(root.toString());
 		for (Folder subFolder : rootFolder.getSubFolders()) {
 			if(subFolder.getId()==subFolder.getParentFolder().getId()){
 				continue;
 			}
-			TreeItem<String> branch = new TreeItem<>(subFolder.getFolderName()+" : "+subFolder.getId());
-			root.getChildren().add(branch);
+			//TreeItem<String> branch = new TreeItem<>(subFolder.getFolderName()+" : "+subFolder.getId());
+			result.getChildren().add(subFolder.getFolderName()+" : "+subFolder.getId());
 			if(!subFolder.getSubFolders().isEmpty())
 			{
 				branch.getChildren().add(displayTreeViewV2(subFolder, branch));
+				root.getChildren().add(branch);
+			}else{
+				root.getChildren().add(branch);
 			}
 		}
 		return root;
+	}*/
+	private TreeItem<String> displayTreeViewV2(Folder rootFolder) {
+		TreeItem<String> result = new TreeItem<>(rootFolder.getFolderName()+" : "+rootFolder.getId());
+		for (Folder subFolder : rootFolder.getSubFolders()) {
+			if(subFolder.getId()==subFolder.getParentFolder().getId()){
+				continue;
+			}
+			//TreeItem<String> branch = new TreeItem<>(subFolder.getFolderName()+" : "+subFolder.getId());
+			result.getChildren().add(displayTreeViewV2(subFolder));
+/*			if(!subFolder.getSubFolders().isEmpty())
+			{
+				branch.getChildren().add(displayTreeViewV2(subFolder, branch));
+				root.getChildren().add(branch);
+			}else{
+				root.getChildren().add(branch);
+			}*/
+		}
+		return result;
 	}
 }
