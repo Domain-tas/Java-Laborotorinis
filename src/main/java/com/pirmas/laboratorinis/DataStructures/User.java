@@ -24,7 +24,7 @@ public abstract class User implements Serializable {
 	private LocalDate dateModified;
 	private Privilege privilege;
 	private boolean isActive;
-	@ManyToMany(cascade = {CascadeType.REMOVE,CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Course> userCourses = new ArrayList<>();

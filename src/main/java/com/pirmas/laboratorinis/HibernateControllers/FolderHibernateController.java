@@ -1,6 +1,7 @@
 package com.pirmas.laboratorinis.HibernateControllers;
 
 import com.pirmas.laboratorinis.DataStructures.Course;
+import com.pirmas.laboratorinis.DataStructures.Folder;
 import com.pirmas.laboratorinis.DataStructures.User;
 
 import javax.persistence.EntityManager;
@@ -19,11 +20,11 @@ public class FolderHibernateController {
 		return emf.createEntityManager();
 	}
 
-	public List<Course> getCoursesByUserId(int id) {
+	public List<Folder> getFoldersById(int id) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery query = em.getCriteriaBuilder().createQuery();
-			query.select(query.from(Course.class));
+			//query.select(query.from(Folder.class, id));
 			Query q = em.createQuery(query);
 			return q.getResultList();
 		} catch (Exception e) {
@@ -36,12 +37,12 @@ public class FolderHibernateController {
 		return null;
 	}
 
-	public void createCourse(Course course){
+	public void createFolder(Folder folder){
 		EntityManager em = null;
 		try{
 			em=getEntityManager();
 			em.getTransaction().begin();
-			em.persist(course);
+			em.persist(folder);
 			em.getTransaction().commit();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -51,12 +52,12 @@ public class FolderHibernateController {
 			}
 		}
 	}
-	public void editCourse(Course course) {
+	public void editFolder(Folder folder) {
 		EntityManager em = null;
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
-			em.merge(course);
+			em.merge(folder);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,24 +68,24 @@ public class FolderHibernateController {
 		}
 	}
 
-	public void removeCourse(int id) {
+	public void removeFolder(int id) {
 		EntityManager em = null;
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
 			//Papildomai pries trinant reikia visus rysius ir priklausomybes patikrinti
-			Course course = null;
+			Folder folder = null;
 			try {
-				course = em.find(Course.class, id);
-				course.getId();
+				folder = em.find(Folder.class, id);
+				folder.getId();
 			} catch (Exception e) {
 				System.out.println("No such user by given Id");
 			}
-			em.remove(course);
-			for (User user : course.getResponsibleUsers())
-			{
-				user.getUserCourses().remove(course);
-			}
+			folder.setCourse(null);
+			folder.setCreator(null);
+			folder.setResponsible(null);
+			folder.setParentFolder(null);
+			em.remove(folder);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,11 +97,11 @@ public class FolderHibernateController {
 		}
 	}
 
-	public List<User> getAllUsers() {
-		return getAllUsers(false, -1, -1);
+	public List<User> getFolders() {
+		return getAllFolders(true, -1, -1);
 	}
 
-	public List<User> getAllUsers(boolean all, int resMax, int resFirst) {
+	public List<User> getAllFolders(boolean all, int resMax, int resFirst) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery query = em.getCriteriaBuilder().createQuery();
@@ -123,19 +124,19 @@ public class FolderHibernateController {
 		return null;
 	}
 
-	public Course getCourseById(int id) {
+	public Folder getFolderById(int id) {
 		EntityManager em = null;
-		Course course = null;
+		Folder folder = null;
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
-			course = em.getReference(Course.class, id);
-			course.getId();
+			folder = em.getReference(Folder.class, id);
+			folder.getId();
 			em.getTransaction().commit();
 		} catch (Exception e) {
-			System.out.println("No such course by given Id");
+			System.out.println("No such folder by given Id");
 		}
-		return course;
+		return folder;
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,20 +17,21 @@ public class Person extends User implements Serializable {
 	private String personSurname;
 	private String personEmail;
 	private String personPosition;
-	@OneToMany(mappedBy = "responsible", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy = "responsible", cascade = {CascadeType.PERSIST, CascadeType.MERGE},orphanRemoval = true)
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Folder> myFolders;
+	private List<Folder> myFolders=new ArrayList<>();
 
-	public Person(String personName, String personSurname, String personEmail, String personPosition, String username, String userPassword)
-	{
+	public Person(String personName, String personSurname, String personEmail, String personPosition, String username, String userPassword) {
 		super(username, userPassword);
 		this.personName = personName;
 		this.personSurname = personSurname;
 		this.personEmail = personEmail;
 		this.personPosition = personPosition;
 	}
-	public Person(){}
+
+	public Person() {
+	}
 
 	public String getPersonName() {
 		return personName;
@@ -69,6 +71,10 @@ public class Person extends User implements Serializable {
 
 	public void setMyFolders(List<Folder> myFolders) {
 		this.myFolders = myFolders;
+	}
+
+	public void addToMyFolders(Folder myFolder) {
+		this.myFolders.add(myFolder);
 	}
 
 }

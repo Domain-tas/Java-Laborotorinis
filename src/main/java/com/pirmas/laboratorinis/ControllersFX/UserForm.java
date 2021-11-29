@@ -4,8 +4,6 @@ import com.pirmas.laboratorinis.DataStructures.Company;
 import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.Privilege;
 import com.pirmas.laboratorinis.DataStructures.User;
-import com.pirmas.laboratorinis.HibernateControllers.CompanyHibernateController;
-import com.pirmas.laboratorinis.HibernateControllers.PersonHibernateController;
 import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
-import org.hibernate.query.Query;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.net.URL;
@@ -41,13 +37,16 @@ public class UserForm implements Initializable {
 	public TableColumn<UserTableParameters, String> colRep;
 	public TableColumn<UserTableParameters, String> colPhone;
 	public TableColumn<UserTableParameters, String> colAddress;
-	public TableView usersTable;
-	public TableColumn<UserTableParameters, Void> dummyField;
 	public TableColumn<UserTableParameters, String> colPrivilege;
+	public TableView usersTable;
+	public TableColumn<UserTableParameters, Void> deleteAction;
+	public TableColumn<UserTableParameters, Void> addAction;
+
 
 	private ObservableList<UserTableParameters> data = FXCollections.observableArrayList();
 
 	private User user;
+
 	public void setUser(User user) throws SQLException {
 		this.user = user;
 		loadUsers();
@@ -204,23 +203,24 @@ public class UserForm implements Initializable {
 					userHibController.editUser(company);
 				}
 		);
-		colPhone.setCellValueFactory(new PropertyValueFactory<>("privilege"));
-		colPhone.setCellFactory(TextFieldTableCell.forTableColumn());
-		colPhone.setOnEditCommit(
+		colPrivilege.setCellValueFactory(new PropertyValueFactory<>("privilege"));
+		colPrivilege.setCellFactory(TextFieldTableCell.forTableColumn());
+		colPrivilege.setOnEditCommit(
 				t -> {
-					if (user.getPrivilege()==Privilege.ADMIN){
-						try{
+					String oldPrivilege = t.getOldValue();
+					if (user.getPrivilege() == Privilege.ADMIN) {
+						try {
 							String privilege = t.getNewValue();
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(t.getNewValue());
 							user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
 							user.setPrivilege(Privilege.valueOf(privilege));
 							userHibController.editUser(company);
-						}catch(Exception e){
+						} catch (Exception e) {
 							UtilityWindows.alertMessage("Incorrectly typed privilege");
 						}
-					}else
-					{
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(t.getOldValue());
+					} else {
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(oldPrivilege);
+						return;
 					}
 
 				}
@@ -230,22 +230,18 @@ public class UserForm implements Initializable {
 			@Override
 			public TableCell<UserTableParameters, Void> call(final TableColumn<UserTableParameters, Void> param) {
 				final TableCell<UserTableParameters, Void> cell = new TableCell<UserTableParameters, Void>() {
-
-					private final Button button = new Button("Delete");
-
+					private final Button deleteButton = new Button("Delete");
 					{
-						button.setOnAction((ActionEvent event) -> {
+						deleteButton.setOnAction((ActionEvent event) -> {
 							UserTableParameters data = getTableView().getItems().get(getIndex());
 							//Delete user by id
 							//DatabaseControls.deleteUser(data.getUserId());
 							//Hibernate version:
-							if(user.getId()== data.getUserId())
-							{
+							if (user.getId() == data.getUserId()) {
 								UtilityWindows.alertMessage("Suicide is not allowed");
 								return;
 							}
 							userHibController.removeUser(data.getUserId());
-
 							try {
 								//Immediately after delete, update info in table
 								loadUsers();
@@ -261,16 +257,16 @@ public class UserForm implements Initializable {
 						if (empty) {
 							setGraphic(null);
 						} else {
-							setGraphic(button);
+							setGraphic(deleteButton);
 						}
 					}
 				};
 				return cell;
 			}
+
 		};
 
-		dummyField.setCellFactory(cellFactory);
-
+		deleteAction.setCellFactory(cellFactory);
 		try {
 			loadUsers();
 		} catch (SQLException e) {
@@ -279,22 +275,21 @@ public class UserForm implements Initializable {
 	}
 
 	private void loadUsers() throws SQLException {
-		if(user==null)
-		{
+		if (user == null) {
 			return;
 		}
 		usersTable.setEditable(true);
 		usersTable.getItems().clear();
 		List<User> users = userHibController.getAllUsers();
 		for (User loadedUser : users) {
-			if(user.getPrivilege()!=Privilege.ADMIN)
-			{
-				if(loadedUser.getId()!=user.getId())
+			if (user.getPrivilege() != Privilege.ADMIN) {
+				if (loadedUser.getId() != user.getId())
 					continue;
 			}
 			//company = userHibController.getCompanyById(user.getId());
 			UserTableParameters userTableParameters = new UserTableParameters();
 			userTableParameters.setUserId(loadedUser.getId());
+			userTableParameters.setPrivilege(loadedUser.getPrivilege().toString());
 			userTableParameters.setLogin(loadedUser.getUserName());
 			userTableParameters.setDateCreated(loadedUser.getDateCreated().toString());
 			userTableParameters.setDateModified(loadedUser.getDateModified().toString());

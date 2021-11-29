@@ -1,6 +1,8 @@
 package com.pirmas.laboratorinis.HibernateControllers;
 
 import com.pirmas.laboratorinis.DataStructures.Course;
+import com.pirmas.laboratorinis.DataStructures.Folder;
+import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
 
 import javax.persistence.EntityManager;
@@ -81,11 +83,28 @@ public class CourseHibernateController {
 			} catch (Exception e) {
 				System.out.println("No such user by given Id");
 			}
-			em.remove(course);
+
 			for (User user : course.getResponsibleUsers())
 			{
 				user.getUserCourses().remove(course);
 			}
+			for (Folder folder : course.getCourseFolders())
+			{
+				folder.setCourse(null);
+				folder.setCreator(null);
+				folder.setResponsible(null);
+				folder.getSubFolders().clear();
+				em.remove(folder);
+				//course.removeCourseFolder(folder);
+			}
+
+/*			for(int i=0; i<course.getCourseFolders().size(); i++)
+			{
+				course.removeCourseFolder(course.getCourseFolders().get(i));
+			}*/
+			course.getCourseFolders().clear();
+			//course.getCourseFolders().removeAll();
+			em.remove(course);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();

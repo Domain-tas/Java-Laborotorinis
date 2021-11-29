@@ -21,11 +21,11 @@ public class Course {
 	private LocalDate endDate;
 	private LocalDate expectedEndDate;
 	//private User creator;
-	@ManyToMany(mappedBy = "userCourses", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(mappedBy = "userCourses", cascade = {CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> responsibleUsers=new ArrayList<>();
-	@OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE},orphanRemoval = true)
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Folder> courseFolders = new ArrayList<>();
@@ -104,12 +104,18 @@ public Course(String courseName, String courseDescription, LocalDate endDate) {
 		this.responsibleUsers = responsibleUsers;
 	}
 
-	public List<Folder> getCourseTasks() {
+	public List<Folder> getCourseFolders() {
 		return courseFolders;
 	}
 
-	public void setCourseTasks(List<Folder> projectFolders) {
+	public void setCourseFolders(List<Folder> projectFolders) {
 		this.courseFolders = projectFolders;
+	}
+	public void addCourseFolder(Folder courseFolder) {
+		this.courseFolders.add(courseFolder);
+	}
+	public void removeCourseFolder(Folder courseFolder) {
+		this.courseFolders.remove(courseFolder);
 	}
 	public void addResponsibleUsers(User user){
 		this.responsibleUsers.add(user);

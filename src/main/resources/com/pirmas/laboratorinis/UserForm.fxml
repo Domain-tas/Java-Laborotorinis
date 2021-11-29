@@ -4,24 +4,25 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="494.0" prefWidth="909.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pirmas.laboratorinis.ControllersFX.UserForm">
+<AnchorPane prefHeight="589.0" prefWidth="1238.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pirmas.laboratorinis.ControllersFX.UserForm">
    <children>
-      <TableView fx:id="usersTable" prefHeight="494.0" prefWidth="978.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="usersTable" prefHeight="589.0" prefWidth="1238.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="40.000030517578125" text="id" />
-            <TableColumn fx:id="colPrivilege" prefWidth="75.0" text="Privilege" />
+            <TableColumn fx:id="colPrivilege" prefWidth="75.0" text="privilege" />
           <TableColumn fx:id="colLogin" prefWidth="67.20001220703125" text="login" />
             <TableColumn fx:id="colCreated" prefWidth="90.39999389648438" text="dateCreated" />
             <TableColumn fx:id="colModified" prefWidth="96.0" text="dateModified" />
-            <TableColumn fx:id="colName" prefWidth="62.39996337890625" text="name" />
-            <TableColumn fx:id="colSurname" prefWidth="92.7999267578125" text="surname" />
+            <TableColumn fx:id="colName" prefWidth="78.0" text="name" />
+            <TableColumn fx:id="colSurname" prefWidth="78.0" text="surname" />
             <TableColumn fx:id="colPos" prefWidth="80.00006103515625" text="position" />
-            <TableColumn fx:id="colEmail" prefWidth="75.0" text="email" />
-            <TableColumn fx:id="colCompany" prefWidth="75.0" text="company" />
-            <TableColumn fx:id="colRep" prefWidth="75.0" text="representative" />
-            <TableColumn fx:id="colPhone" prefWidth="75.0" text="phone" />
-            <TableColumn fx:id="colAddress" prefWidth="75.0" text="address" />
-            <TableColumn fx:id="dummyField" prefWidth="75.0" text="Action" />
+            <TableColumn fx:id="colEmail" prefWidth="101.0" text="email" />
+            <TableColumn fx:id="colCompany" prefWidth="83.0" text="company" />
+            <TableColumn fx:id="colRep" prefWidth="100.0" text="representative" />
+            <TableColumn fx:id="colPhone" prefWidth="87.0" text="phone" />
+            <TableColumn fx:id="colAddress" prefWidth="100.0" text="address" />
+            <TableColumn fx:id="addAction" prefWidth="82.0" text="Add" />
+            <TableColumn fx:id="deleteAction" prefWidth="82.0" text="Delete" />
         </columns>
       </TableView>
    </children>

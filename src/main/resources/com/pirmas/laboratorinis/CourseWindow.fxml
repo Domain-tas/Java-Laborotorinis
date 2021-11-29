@@ -22,7 +22,16 @@
                 </ContextMenu>
             </contextMenu>
         </ListView>
-        <TreeView fx:id="courseTasks" layoutX="316.0" layoutY="33.0" prefHeight="298.0" prefWidth="264.0" />
+        <TreeView fx:id="foldersTreeView" layoutX="316.0" layoutY="33.0" prefHeight="298.0" prefWidth="264.0">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="Add" onAction="#addFolder" />
+                  <MenuItem mnemonicParsing="false" text="Edit" onAction="#editFolder"/>
+                  <MenuItem mnemonicParsing="false" text="Delete" onAction="#deleteFolder"/>
+              </items>
+            </ContextMenu>
+         </contextMenu></TreeView>
         <MenuBar prefHeight="28.0" prefWidth="600.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Courses">
@@ -31,17 +40,19 @@
                         <MenuItem fx:id="addItemCourseMenu" mnemonicParsing="false" onAction="#newCourseForm" text="Add" />
                         <MenuItem fx:id="editItemCourseMenu" mnemonicParsing="false" onAction="#editSelected" text="Edit" />
                         <MenuItem fx:id="deleteItemCourseMenu" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#showMyCourses" text="Show Mine" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Folders">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#showMyFolders" text="MyFolders" />
                         <MenuItem mnemonicParsing="false" text="Statistics" />
+                  <MenuItem mnemonicParsing="false" onAction="#showProjectFolders" text="Project Folders" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="My account">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#loadAllUsersForm" text="All Users" />
+                        <MenuItem fx:id="showUserMyAccount" mnemonicParsing="false" onAction="#loadAllUsersForm" text="All Users" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="About">

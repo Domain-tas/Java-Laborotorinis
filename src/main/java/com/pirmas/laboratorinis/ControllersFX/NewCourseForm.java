@@ -1,6 +1,8 @@
 package com.pirmas.laboratorinis.ControllersFX;
 
 import com.pirmas.laboratorinis.DataStructures.Course;
+import com.pirmas.laboratorinis.DataStructures.Folder;
+import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
 import com.pirmas.laboratorinis.HibernateControllers.CourseHibernateController;
 import com.pirmas.laboratorinis.HibernateControllers.FolderHibernateController;
@@ -40,10 +42,20 @@ public class NewCourseForm {
 	}
 
 	public void createCourse(ActionEvent actionEvent) throws IOException {
+		Person person = userHibernateController.getPersonById(user.getId());
 		Course course = new Course(courseTitle.getText(), courseDesc.getText(), courseExpEnd.getValue());
-		courseHibernateController.createCourse(course);
+		Folder folder = new Folder(courseTitle.getText(), userHibernateController.getPersonById(user.getId()), user);
+		person.addToMyFolders(folder);
+		course.addCourseFolder(folder);
+		//course.addResponsibleUsers(user);
+		folder.setCourse(course);
+		folder.setParentFolder(folder);
 		user.addUserCourses(course);
 		userHibernateController.editUser(user);
+		//userHibernateController.editUser(person);
+		//courseHibernateController.createCourse(course);
+		//folderHibernateController.createFolder(folder);
+
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("CourseWindow.fxml"));
 		Parent root = fxmlLoader.load();
 		CourseWindow mainCourseWindow = fxmlLoader.getController();

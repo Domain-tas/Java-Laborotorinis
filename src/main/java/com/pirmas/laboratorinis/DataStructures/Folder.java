@@ -19,7 +19,7 @@ public class Folder implements Serializable {
     private LocalDate dateCreated;
     private LocalDate dateCompleted;
     private LocalDate deploymentDate;
-    @OneToMany(mappedBy = "parentFolder", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "parentFolder", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @OrderBy("id ASC")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Folder> subFolders;
@@ -43,12 +43,13 @@ public class Folder implements Serializable {
         this.creator = creator;
     }
 
-    public Folder(String taskName, String folderDesc, Person responsible, User creator) {
-        this.folderName = taskName;
-        this.folderDesc = folderDesc;
+    public Folder(String folderName, Person responsible, User creator) {
+        this.folderName = folderName;
+        //this.folderDesc = folderDesc;
         this.responsible = responsible;
         this.creator = creator;
         this.dateCreated = LocalDate.now();
+        //this.course=
     }
 
     public Folder() {
