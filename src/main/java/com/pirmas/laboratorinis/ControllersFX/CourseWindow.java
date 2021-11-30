@@ -86,6 +86,7 @@ public class CourseWindow {
 			addSelection.setVisible(false);
 			editSelection.setVisible(false);
 			deleteSelection.setVisible(false);
+			addResponsibleUserMenu.setVisible(false);
 			showUserMyAccount.setText("My account");
 			myCourses.getItems().clear();
 			List<Course> courseDatabase = userHibernateController.getUserById(user.getId()).getUserCourses();
@@ -135,8 +136,7 @@ public class CourseWindow {
 	private void addToMyCourses() {
 		int courseId = Integer.parseInt(myCourses.getSelectionModel().getSelectedItem().toString().split(" :")[0]);
 		Course course = courseHibernateController.getCourseById(courseId);
-		if(user.getUserCourses().contains(course))
-		{
+		if (user.getUserCourses().contains(course)) {
 			UtilityWindows.alertMessage("You already have this course added!");
 			return;
 		}
@@ -182,7 +182,7 @@ public class CourseWindow {
 		Folder parentFolder = null;
 		TreeItem<String> root = new TreeItem<>("ROOT");
 		List<Course> userCourses = courseHibernateController.getCoursesByUserId(user.getId());
-		if(user.getPrivilege()==Privilege.USER || user.getPrivilege()==Privilege.EDITOR){
+		if (user.getPrivilege() == Privilege.USER || user.getPrivilege() == Privilege.EDITOR) {
 			userCourses = userHibernateController.getUserById(user.getId()).getUserCourses();
 		}
 		for (Course myCourse : userCourses) {
@@ -191,7 +191,7 @@ public class CourseWindow {
 					parentFolder = folder;
 				}
 			}
-			if(parentFolder!=null) {
+			if (parentFolder != null) {
 				root.getChildren().add(createFolderHierarchy(parentFolder));
 				foldersTreeView.setShowRoot(false);
 				foldersTreeView.setRoot(root);
@@ -207,20 +207,14 @@ public class CourseWindow {
 		}
 	}
 
-	public void showProjectFolders(ActionEvent actionEvent) {
-		int courseId = Integer.parseInt(myCourses.getSelectionModel().getSelectedItem().toString().split(" :")[0]);
-		Course course = courseHibernateController.getCourseById(courseId);
-		//course.g
-	}
-
 	public void deleteFolder(ActionEvent actionEvent) {
 		TreeItem<String> item = (TreeItem<String>) foldersTreeView.getSelectionModel().getSelectedItem();
 		int folderId = Integer.parseInt(item.getValue().split(" : ")[1]);
 		Folder folder = folderHibernateController.getFolderById(folderId);
-		if(folder.getId()!=folder.getParentFolder().getId()){
+		if (folder.getId() != folder.getParentFolder().getId()) {
 			folderHibernateController.removeFolder(folderId);
 			displayTreeView();
-		}else{
+		} else {
 			UtilityWindows.alertMessage("To delete the root folder you need to delete the course");
 		}
 	}
@@ -242,7 +236,7 @@ public class CourseWindow {
 		stage.setScene(scene);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
-		user=userHibernateController.getUserById(user.getId());
+		user = userHibernateController.getUserById(user.getId());
 		displayTreeView();
 	}
 
@@ -266,9 +260,9 @@ public class CourseWindow {
 	}
 
 	private TreeItem<String> createFolderHierarchy(Folder rootFolder) {
-		TreeItem<String> result = new TreeItem<>(rootFolder.getFolderName()+" : "+rootFolder.getId());
+		TreeItem<String> result = new TreeItem<>(rootFolder.getFolderName() + " : " + rootFolder.getId());
 		for (Folder subFolder : rootFolder.getSubFolders()) {
-			if(subFolder.getId()==subFolder.getParentFolder().getId()){
+			if (subFolder.getId() == subFolder.getParentFolder().getId()) {
 				continue;
 			}
 			result.getChildren().add(createFolderHierarchy(subFolder));

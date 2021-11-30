@@ -69,61 +69,73 @@ public class UserForm implements Initializable {
 		colLogin.setCellFactory(TextFieldTableCell.forTableColumn());
 		colLogin.setOnEditCommit(
 				t -> {
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setLogin(t.getNewValue());
-					//Update e record on change
-					User user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					user.setUserName(t.getTableView().getItems().get(t.getTablePosition().getRow()).getLogin());
-					userHibController.editUser(user);
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						String newLogin = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setLogin(t.getNewValue());
+						//Update e record on change
+
+						User user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						user.setUserName(t.getTableView().getItems().get(t.getTablePosition().getRow()).getLogin());
+						userHibController.editUser(user);
 //					DatabaseControls.updateField("login", t.getTableView().getItems().get(
 //							t.getTablePosition().getRow()).getLogin(), t.getTableView().getItems().get(
 //							t.getTablePosition().getRow()).getUserId());
+					}
+
 				}
 		);
 		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		colName.setCellFactory(TextFieldTableCell.forTableColumn());
 		colName.setOnEditCommit(
 				t -> {
-					String newName = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(newName);
-					//Update in db
-					person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					person.setPersonName(newName);
-					userHibController.editUser(person);
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						String newName = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(newName);
+						//Update in db
+						person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						person.setPersonName(newName);
+						userHibController.editUser(person);
 //					DatabaseControls.updateField("`person_name`", newName, t.getTableView().getItems().get(
 //							t.getTablePosition().getRow()).getUserId());
+					}
+
 				}
 		);
 		colSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
 		colSurname.setCellFactory(TextFieldTableCell.forTableColumn());
 		colSurname.setOnEditCommit(
 				t -> {
-					if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getSurname().equals("null")) {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setSurname("null");
-						return;
-					}
-					String newSurname = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setSurname(t.getNewValue());
-					//Update db
-					person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					person.setPersonSurname(newSurname);
-					userHibController.editUser(person);
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getSurname().equals("null")) {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setSurname("null");
+							return;
+						}
+						String newSurname = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setSurname(t.getNewValue());
+						//Update db
+						person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						person.setPersonSurname(newSurname);
+						userHibController.editUser(person);
 //					DatabaseControls.updateField("`person_surname`", newSurname, t.getTableView().getItems().get(
 //							t.getTablePosition().getRow()).getUserId());
+					}
 				}
 		);
 		colPos.setCellValueFactory(new PropertyValueFactory<>("position"));
 		colPos.setCellFactory(TextFieldTableCell.forTableColumn());
 		colPos.setOnEditCommit(
 				t -> {
-					if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getPosition().equals("null")) {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPosition("null");
-						return;
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getPosition().equals("null")) {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPosition("null");
+							return;
+						}
+						String newPosition = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPosition(t.getNewValue());
+						person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						person.setPersonPosition(newPosition);
+						userHibController.editUser(person);
 					}
-					String newPosition = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setPosition(t.getNewValue());
-					person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					person.setPersonPosition(newPosition);
-					userHibController.editUser(person);
 				}
 
 		);
@@ -131,60 +143,68 @@ public class UserForm implements Initializable {
 		colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
 		colEmail.setOnEditCommit(
 				t -> {
-					if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getEmail().equals("null")) {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setEmail("null");
-						return;
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getEmail().equals("null")) {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setEmail("null");
+							return;
+						}
+						String newEmail = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setEmail(t.getNewValue());
+						person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						person.setPersonEmail(newEmail);
+						userHibController.editUser(person);
 					}
-					String newEmail = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setEmail(t.getNewValue());
-					person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					person.setPersonEmail(newEmail);
-					userHibController.editUser(person);
 				}
 		);
 		colCompany.setCellValueFactory(new PropertyValueFactory<>("company"));
 		colCompany.setCellFactory(TextFieldTableCell.forTableColumn());
 		colCompany.setOnEditCommit(
 				t -> {
-					if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getCompany().equals("null")) {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setCompany("null");
-						return;
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getCompany().equals("null")) {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setCompany("null");
+							return;
+						}
+						String newCompany = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setCompany(t.getNewValue());
+						company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						company.setCompanyName(newCompany);
+						userHibController.editUser(company);
 					}
-					String newCompany = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setCompany(t.getNewValue());
-					company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					company.setCompanyName(newCompany);
-					userHibController.editUser(company);
 				}
 		);
 		colRep.setCellValueFactory(new PropertyValueFactory<>("representative"));
 		colRep.setCellFactory(TextFieldTableCell.forTableColumn());
 		colRep.setOnEditCommit(
 				t -> {
-					if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getRepresentative().equals("null")) {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setRepresentative("null");
-						return;
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getRepresentative().equals("null")) {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setRepresentative("null");
+							return;
+						}
+						String newRepresentative = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setRepresentative(t.getNewValue());
+						company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						company.setCompanyRepresentative(newRepresentative);
+						userHibController.editUser(company);
 					}
-					String newRepresentative = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setRepresentative(t.getNewValue());
-					company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					company.setCompanyRepresentative(newRepresentative);
-					userHibController.editUser(company);
 				}
 		);
 		colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
 		colAddress.setCellFactory(TextFieldTableCell.forTableColumn());
 		colAddress.setOnEditCommit(
 				t -> {
-					if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getAddress().equals("null")) {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setAddress("null");
-						return;
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getAddress().equals("null")) {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setAddress("null");
+							return;
+						}
+						String newAddress = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setAddress(t.getNewValue());
+						company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						company.setCompanyAddress(newAddress);
+						userHibController.editUser(company);
 					}
-					String newAddress = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setAddress(t.getNewValue());
-					company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					company.setCompanyAddress(newAddress);
-					userHibController.editUser(company);
 				}
 		);
 
@@ -192,24 +212,27 @@ public class UserForm implements Initializable {
 		colPhone.setCellFactory(TextFieldTableCell.forTableColumn());
 		colPhone.setOnEditCommit(
 				t -> {
-					if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getPhone().equals("null")) {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPhone("null");
-						return;
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getPhone().equals("null")) {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPhone("null");
+							return;
+						}
+						String newPhone = t.getNewValue();
+						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPhone(t.getNewValue());
+						company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+						company.setCompanyPhoneNumber(newPhone);
+						userHibController.editUser(company);
 					}
-					String newPhone = t.getNewValue();
-					t.getTableView().getItems().get(t.getTablePosition().getRow()).setPhone(t.getNewValue());
-					company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-					company.setCompanyPhoneNumber(newPhone);
-					userHibController.editUser(company);
 				}
 		);
 		colPrivilege.setCellValueFactory(new PropertyValueFactory<>("privilege"));
 		colPrivilege.setCellFactory(TextFieldTableCell.forTableColumn());
 		colPrivilege.setOnEditCommit(
 				t -> {
-					String oldPrivilege = t.getOldValue();
-					if (user.getPrivilege() == Privilege.ADMIN) {
-						//try {
+					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+						String oldPrivilege = t.getOldValue();
+						if (user.getPrivilege() == Privilege.ADMIN) {
+							//try {
 							String privilege = t.getNewValue();
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(t.getNewValue());
 							User user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
@@ -224,12 +247,12 @@ public class UserForm implements Initializable {
 //						} catch (Exception e) {
 //							UtilityWindows.alertMessage("Incorrectly typed privilege");
 //						}
-					} else {
-						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(oldPrivilege);
-						UtilityWindows.alertMessage("You have no rights to alter user privilege");
-						return;
+						} else {
+							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(oldPrivilege);
+							UtilityWindows.alertMessage("You have no rights to alter user privilege");
+							return;
+						}
 					}
-
 				}
 		);
 

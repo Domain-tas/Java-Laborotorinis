@@ -30,13 +30,14 @@ public class AddResponsibleUser {
 	UserHibernateController userHibernateController= new UserHibernateController(entityManagerFactory);
 
 	public void addResponsibleUser(ActionEvent actionEvent) {
-		User user = userHibernateController.getPersonById(Integer.getInteger(userId.getText()));
+		User user = userHibernateController.getPersonById(Integer.parseInt(userId.getText()));
 		if(user==null){
 			UtilityWindows.alertMessage("There is no user with such id");
 			return;
 		}
 		course.addResponsibleUsers(user);
-		courseHibernateController.editCourse(course);
+		user.addUserCourses(course);
+		userHibernateController.editUser(user);
 		closeThisWindow();
 	}
 
