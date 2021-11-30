@@ -46,7 +46,11 @@ public class NewCourseForm {
 		Course course = new Course(courseTitle.getText(), courseDesc.getText(), courseExpEnd.getValue());
 		Folder folder = new Folder(courseTitle.getText(), userHibernateController.getPersonById(user.getId()), user);
 		person.addToMyFolders(folder);
+		//person.addToMyCourses(course);
 		course.addCourseFolder(folder);
+		course.addResponsibleUsers(user);
+		//person.addEditableCourses(course);
+		//course.setCreator(person);
 		//course.addResponsibleUsers(user);
 		folder.setCourse(course);
 		folder.setParentFolder(folder);
@@ -59,7 +63,7 @@ public class NewCourseForm {
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("CourseWindow.fxml"));
 		Parent root = fxmlLoader.load();
 		CourseWindow mainCourseWindow = fxmlLoader.getController();
-		mainCourseWindow.setUser(user);
+		mainCourseWindow.setUser(userHibernateController.getUserById(user.getId()));
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) courseTitle.getScene().getWindow();
 		//stage.initModality(Modality.APPLICATION_MODAL);

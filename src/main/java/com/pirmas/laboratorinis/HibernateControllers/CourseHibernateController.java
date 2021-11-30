@@ -83,11 +83,15 @@ public class CourseHibernateController {
 			} catch (Exception e) {
 				System.out.println("No such user by given Id");
 			}
-
+//			course.getCreator().getMyCourses().remove(course);
 			for (User user : course.getResponsibleUsers())
 			{
 				user.getUserCourses().remove(course);
 			}
+//			for (Person person : course.getResponsibleUsers())
+//			{
+//				person.getEditableCourses().remove(course);
+//			}
 			for (Folder folder : course.getCourseFolders())
 			{
 				folder.setCourse(null);
@@ -95,15 +99,8 @@ public class CourseHibernateController {
 				folder.setResponsible(null);
 				folder.getSubFolders().clear();
 				em.remove(folder);
-				//course.removeCourseFolder(folder);
 			}
-
-/*			for(int i=0; i<course.getCourseFolders().size(); i++)
-			{
-				course.removeCourseFolder(course.getCourseFolders().get(i));
-			}*/
 			course.getCourseFolders().clear();
-			//course.getCourseFolders().removeAll();
 			em.remove(course);
 			em.getTransaction().commit();
 		} catch (Exception e) {

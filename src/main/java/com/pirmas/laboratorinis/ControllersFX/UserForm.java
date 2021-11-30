@@ -71,7 +71,7 @@ public class UserForm implements Initializable {
 				t -> {
 					t.getTableView().getItems().get(t.getTablePosition().getRow()).setLogin(t.getNewValue());
 					//Update e record on change
-					user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+					User user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
 					user.setUserName(t.getTableView().getItems().get(t.getTablePosition().getRow()).getLogin());
 					userHibController.editUser(user);
 //					DatabaseControls.updateField("login", t.getTableView().getItems().get(
@@ -209,17 +209,24 @@ public class UserForm implements Initializable {
 				t -> {
 					String oldPrivilege = t.getOldValue();
 					if (user.getPrivilege() == Privilege.ADMIN) {
-						try {
+						//try {
 							String privilege = t.getNewValue();
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(t.getNewValue());
-							user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-							user.setPrivilege(Privilege.valueOf(privilege));
-							userHibController.editUser(company);
-						} catch (Exception e) {
-							UtilityWindows.alertMessage("Incorrectly typed privilege");
-						}
+							User user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+							company=userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+							if(company!=null)
+							{
+								user.setPrivilege(Privilege.valueOf(privilege));
+								userHibController.editUser(user);
+							}else{
+								UtilityWindows.alertMessage("Company privilege cannot be elevated");
+							}
+//						} catch (Exception e) {
+//							UtilityWindows.alertMessage("Incorrectly typed privilege");
+//						}
 					} else {
 						t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(oldPrivilege);
+						UtilityWindows.alertMessage("You have no rights to alter user privilege");
 						return;
 					}
 
@@ -282,8 +289,12 @@ public class UserForm implements Initializable {
 		usersTable.getItems().clear();
 		List<User> users = userHibController.getAllUsers();
 		for (User loadedUser : users) {
-			if (user.getPrivilege() != Privilege.ADMIN) {
+			if (user.getPrivilege() != Privilege.ADMIN && user.getPrivilege() != Privilege.EDITOR) {
 				if (loadedUser.getId() != user.getId())
+					continue;
+			}
+			if(user.getPrivilege()==Privilege.EDITOR){
+				if (loadedUser.getPrivilege() == Privilege.USER)
 					continue;
 			}
 			//company = userHibController.getCompanyById(user.getId());

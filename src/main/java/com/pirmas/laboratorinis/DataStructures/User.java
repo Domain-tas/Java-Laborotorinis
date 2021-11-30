@@ -28,6 +28,10 @@ public abstract class User implements Serializable {
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Course> userCourses = new ArrayList<>();
+	@OneToMany(mappedBy = "creator", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+	@OrderBy("id ASC")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Folder> createdFolders;
 
 	public User(String userName, String userPassword, LocalDate dateCreated, LocalDate dateModified) {
 		this.userName = userName;
@@ -105,8 +109,10 @@ public abstract class User implements Serializable {
 	public void addUserCourses(Course course)
 	{
 		this.userCourses.add(course);
-		course.getResponsibleUsers().add(this);
+		//course.getCourseUsers().add(this);
+		//course.getResponsibleUsers().add(this);
 	}
+
 	public void removeUserCourses(Course course)
 	{
 		this.userCourses.remove(course);
@@ -127,5 +133,13 @@ public abstract class User implements Serializable {
 
 	public String getDtype() {
 		return dtype;
+	}
+
+	public List<Folder> getCreatedFolders() {
+		return createdFolders;
+	}
+
+	public void setCreatedFolders(List<Folder> createdFolders) {
+		this.createdFolders = createdFolders;
 	}
 }

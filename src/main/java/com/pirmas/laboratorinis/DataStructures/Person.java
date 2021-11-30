@@ -3,10 +3,7 @@ package com.pirmas.laboratorinis.DataStructures;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +14,14 @@ public class Person extends User implements Serializable {
 	private String personSurname;
 	private String personEmail;
 	private String personPosition;
-	@OneToMany(mappedBy = "responsible", cascade = {CascadeType.PERSIST, CascadeType.MERGE},orphanRemoval = true)
+	@OneToMany(mappedBy = "responsible", cascade = {CascadeType.MERGE},orphanRemoval = true)
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Folder> myFolders=new ArrayList<>();
+//	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//	@OrderBy("id ASC")
+//	@LazyCollection(LazyCollectionOption.FALSE)
+//	private List<Course> editableCourses=new ArrayList<>();
 
 	public Person(String personName, String personSurname, String personEmail, String personPosition, String username, String userPassword) {
 		super(username, userPassword);
@@ -29,7 +30,6 @@ public class Person extends User implements Serializable {
 		this.personEmail = personEmail;
 		this.personPosition = personPosition;
 	}
-
 	public Person() {
 	}
 
@@ -77,4 +77,24 @@ public class Person extends User implements Serializable {
 		this.myFolders.add(myFolder);
 	}
 
+//	public List<Course> getEditableCourses() {
+//		return editableCourses;
+//	}
+//
+//	public void setEditableCourses(List<Course> editableCourses) {
+//		this.editableCourses = editableCourses;
+//	}
+//	public void addEditableCourses(Course editableCourse) {
+//		this.editableCourses.add(editableCourse);
+//	}
+
+//	public List<Course> getMyCourses() {
+//		return myCourses;
+//	}
+//	public void setMyCourses(List<Course> myCourses) {
+//		this.myCourses = myCourses;
+//	}
+//	public void addToMyCourses(Course myCourse) {
+//		this.myCourses.add(myCourse);
+//	}
 }

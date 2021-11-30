@@ -21,14 +21,21 @@ public class Course {
 	private LocalDate endDate;
 	private LocalDate expectedEndDate;
 	//private User creator;
+	//@ManyToMany(mappedBy = "userCourses", cascade = {CascadeType.MERGE})
+//	@ManyToMany(mappedBy = "editableCourses", cascade = {CascadeType.MERGE})
+//	@OrderBy("id ASC")
+//	@LazyCollection(LazyCollectionOption.FALSE)
+//	private List<Person> responsibleUsers=new ArrayList<>();
 	@ManyToMany(mappedBy = "userCourses", cascade = {CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<User> responsibleUsers=new ArrayList<>();
+	private List<User> responsibleUsers =new ArrayList<>();
 	@OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE},orphanRemoval = true)
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Folder> courseFolders = new ArrayList<>();
+//	@ManyToOne
+//	private Person creator;
 
 	public Course(String courseName, String courseDescription, LocalDate endDate, List<User> responsibleUsers, List<Folder> projectFolders) {
 		//this.id = id;
@@ -119,7 +126,7 @@ public Course(String courseName, String courseDescription, LocalDate endDate) {
 	}
 	public void addResponsibleUsers(User user){
 		this.responsibleUsers.add(user);
-		user.getUserCourses().add(this);
+		//user.getUserCourses().add(this);
 	}
 	public void removeResponsibleUsers(User user){
 		this.responsibleUsers.remove(user);
@@ -128,4 +135,23 @@ public Course(String courseName, String courseDescription, LocalDate endDate) {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+//	public List<User> getCourseUsers() {
+//		return courseUsers;
+//	}
+//
+//	public void setCourseUsers(List<User> courseUsers) {
+//		this.courseUsers = courseUsers;
+//	}
+//	public void addCourseUsers(User courseUser) {
+//		this.courseUsers.add(courseUser);
+//	}
+
+//	public Person getCreator() {
+//		return creator;
+//	}
+//
+//	public void setCreator(Person creator) {
+//		this.creator = creator;
+//	}
 }

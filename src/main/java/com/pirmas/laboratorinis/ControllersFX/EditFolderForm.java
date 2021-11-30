@@ -3,6 +3,7 @@ package com.pirmas.laboratorinis.ControllersFX;
 import com.pirmas.laboratorinis.DataStructures.Folder;
 import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
+import com.pirmas.laboratorinis.HibernateControllers.FolderHibernateController;
 import com.pirmas.laboratorinis.HibernateControllers.PersonHibernateController;
 import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
 import javafx.event.ActionEvent;
@@ -12,28 +13,29 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class AddFolderForm {
+public class EditFolderForm {
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
-	UserHibernateController userHibernateController = new UserHibernateController(entityManagerFactory);
+	FolderHibernateController folderHibernateController = new FolderHibernateController(entityManagerFactory);
 
-	private User user;
 	private Folder folder;
 
 	public TextField newFolderName;
 
 	public void closeWindow(ActionEvent actionEvent) {
+		closeThisWindow();
+	}
+
+	public void editFolder(ActionEvent actionEvent) {
+		folder.setFolderName(newFolderName.getText());
+		folderHibernateController.editFolder(folder);
+		closeThisWindow();
+	}
+
+	public void setCourseFormData(Folder folder) {
+		this.folder = folder;
+	}
+	public void closeThisWindow(){
 		Stage stage = (Stage) newFolderName.getScene().getWindow();
 		stage.close();
-	}
-
-	public void createNewFolder(ActionEvent actionEvent) {
-		Person person = userHibernateController.getPersonById(user.getId());
-		Folder newFolder = new Folder(newFolderName.getText(), person, user);
-		//newFolder.setParentFolder();
-	}
-
-	public void setCourseFormData(User user, Folder folder) {
-		this.user=user;
-		this.folder=folder;
 	}
 }

@@ -1,5 +1,6 @@
 package com.pirmas.laboratorinis.DataStructures;
 
+import javafx.scene.control.TreeItem;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,7 +20,7 @@ public class Folder implements Serializable {
     private LocalDate dateCreated;
     private LocalDate dateCompleted;
     private LocalDate deploymentDate;
-    @OneToMany(mappedBy = "parentFolder", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentFolder", cascade = {/*CascadeType.PERSIST,*/ CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     @OrderBy("id ASC")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Folder> subFolders;
@@ -142,5 +143,17 @@ public class Folder implements Serializable {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public List<Folder> getEverySubfolder(Folder folder){
+        List<Folder> result = new ArrayList<>();
+        result.add(folder);
+        for (Folder subFolder : folder.getSubFolders()) {
+            if(subFolder.getId()==subFolder.getParentFolder().getId()){
+                continue;
+            }
+            result.addAll(getEverySubfolder(subFolder));
+        }
+        return result;
     }
 }

@@ -18,6 +18,7 @@
                         <MenuItem fx:id="addItem" mnemonicParsing="false" onAction="#newCourseForm" text="New" />
                         <MenuItem fx:id="editItem" mnemonicParsing="false" onAction="#editSelected" text="Edit" />
                         <MenuItem fx:id="deleteItem" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
+                        <MenuItem fx:id="addResponsibleUserMenu" mnemonicParsing="false" onAction="#addUserResponsible" text="Add Responsible User" />
                     </items>
                 </ContextMenu>
             </contextMenu>
@@ -26,9 +27,9 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                <MenuItem mnemonicParsing="false" text="Add" onAction="#addFolder" />
-                  <MenuItem mnemonicParsing="false" text="Edit" onAction="#editFolder"/>
-                  <MenuItem mnemonicParsing="false" text="Delete" onAction="#deleteFolder"/>
+                <MenuItem fx:id="addSelection" mnemonicParsing="false" onAction="#addFolder" text="Add" />
+                  <MenuItem fx:id="editSelection" mnemonicParsing="false" onAction="#editFolder" text="Edit" />
+                  <MenuItem fx:id="deleteSelection" mnemonicParsing="false" onAction="#deleteFolder" text="Delete" />
               </items>
             </ContextMenu>
          </contextMenu></TreeView>
@@ -37,27 +38,21 @@
                 <Menu mnemonicParsing="false" text="Courses">
                     <items>
                   <MenuItem fx:id="showAllCourseMenu" mnemonicParsing="false" onAction="#loadAllCourses" text="Show All" />
+                  <MenuItem mnemonicParsing="false" onAction="#showMyCourses" text="Show Mine" />
                         <MenuItem fx:id="addItemCourseMenu" mnemonicParsing="false" onAction="#newCourseForm" text="Add" />
                         <MenuItem fx:id="editItemCourseMenu" mnemonicParsing="false" onAction="#editSelected" text="Edit" />
                         <MenuItem fx:id="deleteItemCourseMenu" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
-                  <MenuItem mnemonicParsing="false" onAction="#showMyCourses" text="Show Mine" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Folders">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#showMyFolders" text="MyFolders" />
                         <MenuItem mnemonicParsing="false" text="Statistics" />
-                  <MenuItem mnemonicParsing="false" onAction="#showProjectFolders" text="Project Folders" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="My account">
                     <items>
                         <MenuItem fx:id="showUserMyAccount" mnemonicParsing="false" onAction="#loadAllUsersForm" text="All Users" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="About">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
                     </items>
                 </Menu>
             </menus>

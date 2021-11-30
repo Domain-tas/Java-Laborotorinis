@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="310.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pirmas.laboratorinis.ControllersFX.AddResponsibleUser">
+   <children>
+      <Button layoutX="258.0" layoutY="244.0" mnemonicParsing="false" onAction="#addResponsibleUser" text="Add" />
+      <Button layoutX="57.0" layoutY="244.0" mnemonicParsing="false" onAction="#closeWindow" text="Cancel" />
+      <TextField fx:id="userId" layoutX="109.0" layoutY="175.0" />
+      <Label layoutX="117.0" layoutY="58.0" text="Add responsible user for:" />
+      <TextField fx:id="courseName" layoutX="109.0" layoutY="87.0" />
+      <Label layoutX="164.0" layoutY="147.0" text="User id:" />
+   </children>
+</AnchorPane>
