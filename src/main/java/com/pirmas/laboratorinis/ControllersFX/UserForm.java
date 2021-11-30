@@ -69,17 +69,11 @@ public class UserForm implements Initializable {
 		colLogin.setCellFactory(TextFieldTableCell.forTableColumn());
 		colLogin.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
-						String newLogin = t.getNewValue();
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						t.getTableView().getItems().get(t.getTablePosition().getRow()).setLogin(t.getNewValue());
-						//Update e record on change
-
 						User user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
 						user.setUserName(t.getTableView().getItems().get(t.getTablePosition().getRow()).getLogin());
 						userHibController.editUser(user);
-//					DatabaseControls.updateField("login", t.getTableView().getItems().get(
-//							t.getTablePosition().getRow()).getLogin(), t.getTableView().getItems().get(
-//							t.getTablePosition().getRow()).getUserId());
 					}
 
 				}
@@ -88,15 +82,12 @@ public class UserForm implements Initializable {
 		colName.setCellFactory(TextFieldTableCell.forTableColumn());
 		colName.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						String newName = t.getNewValue();
 						t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(newName);
-						//Update in db
 						person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
 						person.setPersonName(newName);
 						userHibController.editUser(person);
-//					DatabaseControls.updateField("`person_name`", newName, t.getTableView().getItems().get(
-//							t.getTablePosition().getRow()).getUserId());
 					}
 
 				}
@@ -105,19 +96,16 @@ public class UserForm implements Initializable {
 		colSurname.setCellFactory(TextFieldTableCell.forTableColumn());
 		colSurname.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getSurname().equals("null")) {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setSurname("null");
 							return;
 						}
 						String newSurname = t.getNewValue();
 						t.getTableView().getItems().get(t.getTablePosition().getRow()).setSurname(t.getNewValue());
-						//Update db
 						person = userHibController.getPersonById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
 						person.setPersonSurname(newSurname);
 						userHibController.editUser(person);
-//					DatabaseControls.updateField("`person_surname`", newSurname, t.getTableView().getItems().get(
-//							t.getTablePosition().getRow()).getUserId());
 					}
 				}
 		);
@@ -125,7 +113,7 @@ public class UserForm implements Initializable {
 		colPos.setCellFactory(TextFieldTableCell.forTableColumn());
 		colPos.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getPosition().equals("null")) {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPosition("null");
 							return;
@@ -143,7 +131,7 @@ public class UserForm implements Initializable {
 		colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
 		colEmail.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getEmail().equals("null")) {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setEmail("null");
 							return;
@@ -160,7 +148,7 @@ public class UserForm implements Initializable {
 		colCompany.setCellFactory(TextFieldTableCell.forTableColumn());
 		colCompany.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getCompany().equals("null")) {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setCompany("null");
 							return;
@@ -177,7 +165,7 @@ public class UserForm implements Initializable {
 		colRep.setCellFactory(TextFieldTableCell.forTableColumn());
 		colRep.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getRepresentative().equals("null")) {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setRepresentative("null");
 							return;
@@ -194,7 +182,7 @@ public class UserForm implements Initializable {
 		colAddress.setCellFactory(TextFieldTableCell.forTableColumn());
 		colAddress.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getAddress().equals("null")) {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setAddress("null");
 							return;
@@ -212,7 +200,7 @@ public class UserForm implements Initializable {
 		colPhone.setCellFactory(TextFieldTableCell.forTableColumn());
 		colPhone.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						if (t.getTableView().getItems().get(t.getTablePosition().getRow()).getPhone().equals("null")) {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPhone("null");
 							return;
@@ -229,24 +217,19 @@ public class UserForm implements Initializable {
 		colPrivilege.setCellFactory(TextFieldTableCell.forTableColumn());
 		colPrivilege.setOnEditCommit(
 				t -> {
-					if(user.getId()==t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId()||user.getPrivilege()==Privilege.ADMIN){
+					if (user.getId() == t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId() || user.getPrivilege() == Privilege.ADMIN) {
 						String oldPrivilege = t.getOldValue();
 						if (user.getPrivilege() == Privilege.ADMIN) {
-							//try {
 							String privilege = t.getNewValue();
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(t.getNewValue());
 							User user = userHibController.getUserById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-							company=userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
-							if(company!=null)
-							{
+							company = userHibController.getCompanyById(t.getTableView().getItems().get(t.getTablePosition().getRow()).getUserId());
+							if (company != null) {
 								user.setPrivilege(Privilege.valueOf(privilege));
 								userHibController.editUser(user);
-							}else{
+							} else {
 								UtilityWindows.alertMessage("Company privilege cannot be elevated");
 							}
-//						} catch (Exception e) {
-//							UtilityWindows.alertMessage("Incorrectly typed privilege");
-//						}
 						} else {
 							t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrivilege(oldPrivilege);
 							UtilityWindows.alertMessage("You have no rights to alter user privilege");
@@ -261,19 +244,16 @@ public class UserForm implements Initializable {
 			public TableCell<UserTableParameters, Void> call(final TableColumn<UserTableParameters, Void> param) {
 				final TableCell<UserTableParameters, Void> cell = new TableCell<UserTableParameters, Void>() {
 					private final Button deleteButton = new Button("Delete");
+
 					{
 						deleteButton.setOnAction((ActionEvent event) -> {
 							UserTableParameters data = getTableView().getItems().get(getIndex());
-							//Delete user by id
-							//DatabaseControls.deleteUser(data.getUserId());
-							//Hibernate version:
 							if (user.getId() == data.getUserId()) {
 								UtilityWindows.alertMessage("Suicide is not allowed");
 								return;
 							}
 							userHibController.removeUser(data.getUserId());
 							try {
-								//Immediately after delete, update info in table
 								loadUsers();
 							} catch (SQLException e) {
 								e.printStackTrace();
@@ -316,11 +296,10 @@ public class UserForm implements Initializable {
 				if (loadedUser.getId() != user.getId())
 					continue;
 			}
-			if(user.getPrivilege()==Privilege.EDITOR){
+			if (user.getPrivilege() == Privilege.EDITOR) {
 				if (loadedUser.getPrivilege() == Privilege.USER)
 					continue;
 			}
-			//company = userHibController.getCompanyById(user.getId());
 			UserTableParameters userTableParameters = new UserTableParameters();
 			userTableParameters.setUserId(loadedUser.getId());
 			userTableParameters.setPrivilege(loadedUser.getPrivilege().toString());
@@ -351,29 +330,5 @@ public class UserForm implements Initializable {
 			data.add(userTableParameters);
 		}
 		usersTable.setItems(data);
-		/*connection = DatabaseControls.connectToDatabase();
-		String sql = "SELECT * FROM users AS u WHERE u.is_active = true";
-		statement = connection.createStatement();
-		ResultSet rs = statement.executeQuery(sql);
-		while (rs.next()) {
-			UserTableParameters userTableParameters = new UserTableParameters();
-			userTableParameters.setUserId(rs.getInt(1));
-			userTableParameters.setLogin(rs.getString(2));
-			userTableParameters.setDateCreated(rs.getDate(4).toString());
-			userTableParameters.setDateModified(rs.getDate(5).toString());
-			userTableParameters.setName(rs.getString(7));
-			userTableParameters.setSurname(rs.getString(8));
-			userTableParameters.setPosition(rs.getString(9));
-			userTableParameters.setEmail(rs.getString(10));
-			userTableParameters.setCompany(rs.getString(11));
-			userTableParameters.setRepresentative(rs.getString(12));
-			userTableParameters.setAddress(rs.getString(13));
-			userTableParameters.setPhone(rs.getString(14));
-			data.add(userTableParameters);
-		}
-
-		usersTable.setItems(data);
-
-		DatabaseControls.disconnectFromDatabase(connection, statement);*/
 	}
 }

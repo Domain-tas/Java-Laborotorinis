@@ -77,24 +77,4 @@ public class Person extends User implements Serializable {
 		this.myFolders.add(myFolder);
 	}
 
-//	public List<Course> getEditableCourses() {
-//		return editableCourses;
-//	}
-//
-//	public void setEditableCourses(List<Course> editableCourses) {
-//		this.editableCourses = editableCourses;
-//	}
-//	public void addEditableCourses(Course editableCourse) {
-//		this.editableCourses.add(editableCourse);
-//	}
-
-//	public List<Course> getMyCourses() {
-//		return myCourses;
-//	}
-//	public void setMyCourses(List<Course> myCourses) {
-//		this.myCourses = myCourses;
-//	}
-//	public void addToMyCourses(Course myCourse) {
-//		this.myCourses.add(myCourse);
-//	}
 }

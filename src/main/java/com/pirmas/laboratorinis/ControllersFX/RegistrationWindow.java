@@ -4,7 +4,6 @@ import com.pirmas.laboratorinis.DataStructures.Company;
 import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
 import com.pirmas.laboratorinis.MainApplication;
-import com.pirmas.laboratorinis.PopUp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,18 +49,17 @@ public class RegistrationWindow implements Initializable {
 
 	@FXML
 	public void validateRegisterUser(ActionEvent actionEvent) throws IOException {
-			if(!passwordField.getText().equals(repeatPasswordField.getText()))
-			{
-				UtilityWindows.alertMessage("Your passwords didn't match");
-				return;
-			}
-			if (personButton.isSelected()) {
-				Person person = new Person(nameField.getText(), surnameField.getText(), emailFieldPerson.getText(), positionPerson.getText(), userNameField.getText(), passwordField.getText());
-				userHibernateController.createUser(person);
-			} else {
-				Company company = new Company(userNameField.getText(), passwordField.getText(), companyName.getText(), representativeName.getText(), addressFieldCompany.getText(), phoneNumberCompany.getText());
-				userHibernateController.createUser(company);
-			}
+		if (!passwordField.getText().equals(repeatPasswordField.getText())) {
+			UtilityWindows.alertMessage("Your passwords didn't match");
+			return;
+		}
+		if (personButton.isSelected()) {
+			Person person = new Person(nameField.getText(), surnameField.getText(), emailFieldPerson.getText(), positionPerson.getText(), userNameField.getText(), passwordField.getText());
+			userHibernateController.createUser(person);
+		} else {
+			Company company = new Company(userNameField.getText(), passwordField.getText(), companyName.getText(), representativeName.getText(), addressFieldCompany.getText(), phoneNumberCompany.getText());
+			userHibernateController.createUser(company);
+		}
 		registrationSuccessful(true);
 	}
 
@@ -70,8 +68,6 @@ public class RegistrationWindow implements Initializable {
 			UtilityWindows.alertMessage("Registration was successful");
 		else
 			UtilityWindows.alertMessage("Registration failed");
-//		PopUp popUp=new PopUp();
-//		popUp.Display("Success", "Registration was successful");
 		returnToPrevious();
 	}
 

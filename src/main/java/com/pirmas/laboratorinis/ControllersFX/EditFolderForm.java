@@ -1,11 +1,7 @@
 package com.pirmas.laboratorinis.ControllersFX;
 
 import com.pirmas.laboratorinis.DataStructures.Folder;
-import com.pirmas.laboratorinis.DataStructures.Person;
-import com.pirmas.laboratorinis.DataStructures.User;
 import com.pirmas.laboratorinis.HibernateControllers.FolderHibernateController;
-import com.pirmas.laboratorinis.HibernateControllers.PersonHibernateController;
-import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;

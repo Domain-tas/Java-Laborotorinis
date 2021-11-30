@@ -2,7 +2,6 @@ package com.pirmas.laboratorinis.ControllersFX;
 
 import com.pirmas.laboratorinis.DataStructures.User;
 import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
-import com.pirmas.laboratorinis.nenaudojami.DatabaseControls;
 import com.pirmas.laboratorinis.DataStructures.CourseManagementSystem;
 import com.pirmas.laboratorinis.MainApplication;
 import javafx.event.ActionEvent;
@@ -35,7 +34,7 @@ public class LoginWindow implements Initializable {
 	public TextField userName;
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
-	UserHibernateController userHibernateController=new UserHibernateController(entityManagerFactory);
+	UserHibernateController userHibernateController = new UserHibernateController(entityManagerFactory);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -45,33 +44,21 @@ public class LoginWindow implements Initializable {
 	public void loginUser(ActionEvent actionEvent) throws IOException, SQLException {
 		User user;
 		user = userHibernateController.getUserByLogin(userName.getText(), userPassword.getText());
-		if(user!=null)
-		{
-			//Record exists --> load projects form. First get all resources associated with this form
+		if (user != null) {
 			FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("CourseWindow.fxml"));
-			//I must load those resources if I want to access controller for that form
 			Parent root = fxmlLoader.load();
 
-			//Get controller for project form
-			CourseWindow courseWindow=fxmlLoader.getController();
-			//CourseWindow courseWindow = new CourseWindow();
-			//Set the current user login so that the form would know who has logged in
-			//Reminder: that is how we set data, because forms do not know what is going on in other forms
+			CourseWindow courseWindow = fxmlLoader.getController();
 			courseWindow.setCourseFormData(user);
-			//courseWindow=fxmlLoader.getController();
 
 			Scene scene = new Scene(root);
 
-			//This code will load the scene in current window
-			//Stage stage = (Stage) loginF.getScene().getWindow();
-			//This code will open a new window
 			Stage stage = new Stage();
 			stage.setTitle("Project Management System");
 			stage.setScene(scene);
-			//These two lines of code ensure that I cannot work with previous window while new window is open
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
-		}else {
+		} else {
 			UtilityWindows.alertMessage("Wrong input data, no such user found");
 		}
 	}
@@ -82,7 +69,6 @@ public class LoginWindow implements Initializable {
 		Parent root = fxmlLoader.load();
 
 		RegistrationWindow registrationForm = fxmlLoader.getController();
-		//registrationForm.setManagementSystem(courseManagementSystem);
 
 		Scene scene = new Scene(root);
 
@@ -90,5 +76,5 @@ public class LoginWindow implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 	}
-	}
+}
 

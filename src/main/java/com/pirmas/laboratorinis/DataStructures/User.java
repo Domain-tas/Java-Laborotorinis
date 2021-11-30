@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@Table(name="users")
 public abstract class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +37,7 @@ public abstract class User implements Serializable {
 		this.userPassword = userPassword;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
-		this.privilege=Privilege.USER;
+		this.privilege = Privilege.USER;
 		this.isActive = true;
 	}
 
@@ -47,7 +46,7 @@ public abstract class User implements Serializable {
 		this.userPassword = userPassword;
 		this.dateCreated = LocalDate.now();
 		this.dateModified = LocalDate.now();
-		this.privilege=Privilege.USER;
+		this.privilege = Privilege.USER;
 		this.isActive = true;
 	}
 
@@ -106,17 +105,12 @@ public abstract class User implements Serializable {
 		this.userCourses = userCourses;
 	}
 
-	public void addUserCourses(Course course)
-	{
+	public void addUserCourses(Course course) {
 		this.userCourses.add(course);
-		//course.getCourseUsers().add(this);
-		//course.getResponsibleUsers().add(this);
 	}
 
-	public void removeUserCourses(Course course)
-	{
+	public void removeUserCourses(Course course) {
 		this.userCourses.remove(course);
-		course.getResponsibleUsers().remove(this);
 	}
 
 	public void setId(int id) {

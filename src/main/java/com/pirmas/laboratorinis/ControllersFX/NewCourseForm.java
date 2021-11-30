@@ -33,9 +33,7 @@ public class NewCourseForm {
 	private User user;
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
-	CourseHibernateController courseHibernateController = new CourseHibernateController(entityManagerFactory);
 	UserHibernateController userHibernateController = new UserHibernateController(entityManagerFactory);
-	FolderHibernateController folderHibernateController = new FolderHibernateController(entityManagerFactory);
 
 	public void setCourseFormData(User user) {
 		this.user = user;
@@ -46,19 +44,12 @@ public class NewCourseForm {
 		Course course = new Course(courseTitle.getText(), courseDesc.getText(), courseExpEnd.getValue());
 		Folder folder = new Folder(courseTitle.getText(), userHibernateController.getPersonById(user.getId()), user);
 		person.addToMyFolders(folder);
-		//person.addToMyCourses(course);
 		course.addCourseFolder(folder);
 		course.addResponsibleUsers(user);
-		//person.addEditableCourses(course);
-		//course.setCreator(person);
-		//course.addResponsibleUsers(user);
 		folder.setCourse(course);
 		folder.setParentFolder(folder);
 		user.addUserCourses(course);
 		userHibernateController.editUser(user);
-		//userHibernateController.editUser(person);
-		//courseHibernateController.createCourse(course);
-		//folderHibernateController.createFolder(folder);
 
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("CourseWindow.fxml"));
 		Parent root = fxmlLoader.load();
@@ -66,7 +57,6 @@ public class NewCourseForm {
 		mainCourseWindow.setUser(userHibernateController.getUserById(user.getId()));
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) courseTitle.getScene().getWindow();
-		//stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(scene);
 		stage.show();
 	}

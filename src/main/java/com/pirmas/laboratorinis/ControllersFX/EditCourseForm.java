@@ -48,7 +48,6 @@ public class EditCourseForm {
 
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) courseTitle.getScene().getWindow();
-		//stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(scene);
 		stage.show();
 	}

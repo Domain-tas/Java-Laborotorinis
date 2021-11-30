@@ -26,7 +26,6 @@ public class AddResponsibleUser {
 	}
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
-	CourseHibernateController courseHibernateController = new CourseHibernateController(entityManagerFactory);
 	UserHibernateController userHibernateController= new UserHibernateController(entityManagerFactory);
 
 	public void addResponsibleUser(ActionEvent actionEvent) {

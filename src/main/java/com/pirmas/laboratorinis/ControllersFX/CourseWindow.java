@@ -55,10 +55,6 @@ public class CourseWindow {
 	UserHibernateController userHibernateController = new UserHibernateController(entityManagerFactory);
 	FolderHibernateController folderHibernateController = new FolderHibernateController(entityManagerFactory);
 
-	public Folder fetchFolders(int folderId) {
-		return folderHibernateController.getFolderById(folderId);
-	}
-
 	public void newCourseForm(ActionEvent actionEvent) throws IOException {
 		if (user.getPrivilege() == Privilege.USER) {
 			addToMyCourses();
