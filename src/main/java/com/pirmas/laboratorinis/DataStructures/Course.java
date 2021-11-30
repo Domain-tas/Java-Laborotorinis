@@ -19,7 +19,7 @@ public class Course {
 	private LocalDate dateCreated;
 	private LocalDate endDate;
 	private LocalDate expectedEndDate;
-	@ManyToMany(mappedBy = "userCourses", cascade = {CascadeType.MERGE})
+	@ManyToMany(mappedBy = "userCourses")//, cascade = {CascadeType.MERGE})
 	@OrderBy("id ASC")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> responsibleUsers = new ArrayList<>();
@@ -122,7 +122,7 @@ public class Course {
 
 	public void removeResponsibleUsers(User user) {
 		this.responsibleUsers.remove(user);
-		user.getUserCourses().remove(this);
+		//user.getUserCourses().remove(this);
 	}
 
 	public void setId(int id) {

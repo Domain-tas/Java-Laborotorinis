@@ -27,15 +27,22 @@ public class AddResponsibleUser {
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
 	UserHibernateController userHibernateController= new UserHibernateController(entityManagerFactory);
+	CourseHibernateController courseHibernateController = new CourseHibernateController(entityManagerFactory);
 
 	public void addResponsibleUser(ActionEvent actionEvent) {
-		User user = userHibernateController.getPersonById(Integer.parseInt(userId.getText()));
+		User user = userHibernateController.getUserById(Integer.parseInt(userId.getText()));
 		if(user==null){
 			UtilityWindows.alertMessage("There is no user with such id");
 			return;
 		}
-		course.addResponsibleUsers(user);
+		//course.addResponsibleUsers(user);
 		user.addUserCourses(course);
+//		Person person = userHibernateController.getPersonById(user.getId());
+//		for(Folder folder : course.getCourseFolders()){
+//			person.addToMyFolders(folder);
+//		}
+
+		//courseHibernateController.editCourse(course);
 		userHibernateController.editUser(user);
 		closeThisWindow();
 	}

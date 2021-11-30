@@ -2,14 +2,12 @@ package com.pirmas.laboratorinis.HibernateControllers;
 
 import com.pirmas.laboratorinis.DataStructures.Course;
 import com.pirmas.laboratorinis.DataStructures.Folder;
-import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourseHibernateController {
@@ -75,7 +73,6 @@ public class CourseHibernateController {
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
-			//Papildomai pries trinant reikia visus rysius ir priklausomybes patikrinti
 			Course course = null;
 			try {
 				course = em.find(Course.class, id);
@@ -83,15 +80,11 @@ public class CourseHibernateController {
 			} catch (Exception e) {
 				System.out.println("No such user by given Id");
 			}
-//			course.getCreator().getMyCourses().remove(course);
 			for (User user : course.getResponsibleUsers())
 			{
 				user.getUserCourses().remove(course);
 			}
-//			for (Person person : course.getResponsibleUsers())
-//			{
-//				person.getEditableCourses().remove(course);
-//			}
+
 			for (Folder folder : course.getCourseFolders())
 			{
 				folder.setCourse(null);

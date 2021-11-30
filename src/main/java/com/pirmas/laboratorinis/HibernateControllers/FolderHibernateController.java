@@ -2,7 +2,6 @@ package com.pirmas.laboratorinis.HibernateControllers;
 
 import com.pirmas.laboratorinis.DataStructures.Course;
 import com.pirmas.laboratorinis.DataStructures.Folder;
-import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
 
 import javax.persistence.EntityManager;
@@ -83,27 +82,6 @@ public class FolderHibernateController {
 			} catch (Exception e) {
 				System.out.println("No such user by given Id");
 			}
-/*			for(Folder courseFolder : folder.getCourse().getCourseFolders()){
-				if(courseFolder.getCourse()==folder.getCourse()){
-					folder.getCourse().getCourseFolders().remove(courseFolder)
-				}
-			}*/
-
-/*			for (Folder subFolder : folder.getSubFolders()){
-				//subFolder.setCourse(null);
-				//subFolder.setCreator(null);
-				//subFolder.setResponsible(null);
-				Course course = subFolder.getCourse();
-				subFolder.getSubFolders().clear();
-				course.getCourseFolders().remove(subFolder);
-				//em.remove(subFolder);
-			}
-			for (Folder subFolder : folder.getResponsible().getMyFolders()){
-				subFolder.getResponsible().getMyFolders().remove(subFolder);
-			}
-			for (Folder subFolder : folder.getCreator().getCreatedFolders()){
-				subFolder.getCreator().getCreatedFolders().remove(subFolder);
-			}*/
 			Course course = folder.getCourse();
 			for (Folder subFolder : folder.getEverySubfolder(folder)){
 				course.getCourseFolders().remove(subFolder);
@@ -118,10 +96,6 @@ public class FolderHibernateController {
 			folder.getCreator().getCreatedFolders().remove(folder);
 			folder.getResponsible().getMyFolders().remove(folder);
 			folder.getParentFolder().getSubFolders().remove(folder);
-			//folder.setCourse(null);
-			//folder.setCreator(null);
-			//folder.setResponsible(null);
-			//folder.getSubFolders().isEmpty();
 			em.remove(folder);
 			em.getTransaction().commit();
 		} catch (Exception e) {

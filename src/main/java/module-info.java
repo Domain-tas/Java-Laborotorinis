@@ -17,8 +17,8 @@ module com.pirmas.laboratorinis {
 	exports com.pirmas.laboratorinis.DataStructures;
 	//exports com.pirmas.laboratorinis.Control;
 	//opens com.pirmas.laboratorinis.Control to javafx.fxml;
-	exports com.pirmas.laboratorinis.nenaudojami;
-	opens com.pirmas.laboratorinis.nenaudojami to javafx.fxml;
+//	exports com.pirmas.laboratorinis.nenaudojami;
+//	opens com.pirmas.laboratorinis.nenaudojami to javafx.fxml;
 	//exports com.pmsys.pmsys.otherclasses;
 
 
