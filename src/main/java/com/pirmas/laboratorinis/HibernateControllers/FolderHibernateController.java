@@ -20,23 +20,6 @@ public class FolderHibernateController {
 		return emf.createEntityManager();
 	}
 
-	public List<Folder> getFoldersById(int id) {
-		EntityManager em = getEntityManager();
-		try {
-			CriteriaQuery query = em.getCriteriaBuilder().createQuery();
-			//query.select(query.from(Folder.class, id));
-			Query q = em.createQuery(query);
-			return q.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-		return null;
-	}
-
 	public void createFolder(Folder folder){
 		EntityManager em = null;
 		try{
@@ -106,10 +89,6 @@ public class FolderHibernateController {
 				em.close();
 			}
 		}
-	}
-
-	public List<User> getFolders() {
-		return getAllFolders(true, -1, -1);
 	}
 
 	public List<User> getAllFolders(boolean all, int resMax, int resFirst) {
