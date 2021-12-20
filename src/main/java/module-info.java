@@ -7,6 +7,9 @@ module com.pirmas.laboratorinis {
 	requires java.persistence;
 	requires com.google.gson;
 	//requires java.sql;
+	requires spring.context;
+	requires spring.web;
+	requires spring.core;
 
 
 	opens com.pirmas.laboratorinis to javafx.fxml;
