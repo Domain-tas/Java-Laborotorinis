@@ -13,12 +13,12 @@ public class CompanyGsonSerializer implements JsonSerializer<Company> {
     public JsonElement serialize(Company company, Type type, JsonSerializationContext jsonSerializationContext) {
         JsonObject companyJson = new JsonObject();
         companyJson.addProperty("id", company.getId());
-        companyJson.addProperty("login", company.getUserName());
-        companyJson.addProperty("psw", company.getUserPassword());
+        companyJson.addProperty("userName", company.getUserName());
+        companyJson.addProperty("password", company.getUserPassword());
         companyJson.addProperty("dateCreated", company.getDateCreated().toString());
         companyJson.addProperty("dateModified", company.getDateModified().toString());
-        companyJson.addProperty("name", company.getCompanyName());
-        companyJson.addProperty("rep", company.getCompanyRepresentative());
+        companyJson.addProperty("companyName", company.getCompanyName());
+        companyJson.addProperty("representative", company.getCompanyRepresentative());
         return companyJson;
     }
 }

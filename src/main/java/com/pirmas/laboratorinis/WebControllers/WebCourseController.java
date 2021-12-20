@@ -18,13 +18,13 @@ import java.util.List;
 
 @Controller
 public class WebCourseController {
-	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ProjectManagementSystem");
+	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
 	CourseHibernateController courseHibController = new CourseHibernateController(entityManagerFactory);
 
-	@RequestMapping(value = "/project/getAll", method = RequestMethod.GET)
+	@RequestMapping(value = "/course/getAll", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
-	public String getAllProjects() {
+	public String getAllCourses() {
 
 		List<Course> allCourses = courseHibController.getAllCourses();
 
@@ -36,7 +36,7 @@ public class WebCourseController {
 		return parser.toJson(allCourses);
 	}
 
-	@RequestMapping(value = "/project/getAll/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/course/getAll/{id}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
 	public String getAllProjectsByUser(@PathVariable(name = "id") int id) {
@@ -51,7 +51,7 @@ public class WebCourseController {
 		return parser.toJson(allCourses);
 	}
 
-	@RequestMapping(value = "/project/deleteProject/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/course/deleteCourse/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
 	public String deleteProject(@PathVariable(name = "id") String id) {

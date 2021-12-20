@@ -26,11 +26,10 @@ public class WebUserController {
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
 	UserHibernateController userHibController = new UserHibernateController(entityManagerFactory);
 
-	@RequestMapping(value = "/users/userLogin", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/userLogin", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
 	public String login(@RequestBody String request) {
-
 		Gson parser = new Gson();
 		Properties data = parser.fromJson(request, Properties.class);
 		GsonBuilder gson = new GsonBuilder();
@@ -41,11 +40,11 @@ public class WebUserController {
         "login":
         "psw": }
          */
-		if (data.getProperty("type").equals("P")) {
-			person = (Person) userHibController.getUserByLogin(data.getProperty("login"), data.getProperty("password"));
+		if (data.getProperty("DTYPE").equals("Person")) {
+			person = (Person) userHibController.getUserByLogin(data.getProperty("userName"), data.getProperty("userPassword"));
 			gson.registerTypeAdapter(Person.class, new PersonGsonSerializer()).registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer());
-		} else if (data.getProperty("type").equals("C")) {
-			company = (Company) userHibController.getUserByLogin(data.getProperty("login"), data.getProperty("password"));
+		} else if (data.getProperty("DTYPE").equals("Company")) {
+			company = (Company) userHibController.getUserByLogin(data.getProperty("userName"), data.getProperty("userPassword"));
 			gson.registerTypeAdapter(Company.class, new CompanyGsonSerializer()).registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer());
 		}
 
@@ -60,65 +59,102 @@ public class WebUserController {
 
 	}
 
-	@RequestMapping(value = "/users/createPerson", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/createPerson", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
 	public String createPerson(@RequestBody String request) {
-
 		GsonBuilder gson = new GsonBuilder();
 		gson.registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer()).registerTypeAdapter(User.class, new PersonGsonSerializer());
 		Gson parser = gson.create();
 		Properties data = parser.fromJson(request, Properties.class);
-		userHibController.createUser(new Person(data.getProperty("login"), data.getProperty("password"), data.getProperty("name"), data.getProperty("surname"), data.getProperty("email"), data.getProperty("position")));
-		User user = userHibController.getUserByLogin(data.getProperty("login"), data.getProperty("password"));
-		if (user == null) {
+		userHibController.createUser(new Person(data.getProperty("personName"), data.getProperty("personSurname"), data.getProperty("personEmail"), data.getProperty("personPosition"), data.getProperty("userName"), data.getProperty("userPassword")));
+		Person person = (Person) userHibController.getUserByLogin(data.getProperty("userName"), data.getProperty("userPassword"));
+		if (person == null) {
 			return "User not created";
 		}
-		return parser.toJson(user);
+		return parser.toJson(person);
 	}
 
-	@RequestMapping(value = "/users/getUser/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/getUser/{id}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
 	public String getUser(@PathVariable(name = "id") String id) {
-
-		User user = userHibController.getUserById(Integer.parseInt(id));
+		int intId = Integer.parseInt(id);
+		User user = userHibController.getUserById(intId);
+		Person person = null;
+		Company company = null;
 		GsonBuilder gson = new GsonBuilder();
 		if (user.getClass() == Person.class) {
-			gson.registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer()).registerTypeAdapter(Person.class, new PersonGsonSerializer());
-		} else if (user.getClass() == Company.class)
-			gson.registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer()).registerTypeAdapter(Company.class, new CompanyGsonSerializer());
+			person = (Person) userHibController.getUserById(Integer.parseInt(id));
+			gson.registerTypeAdapter(Person.class, new PersonGsonSerializer()).registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer()); // registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer()).
+		} else if (user.getClass() == Company.class){
+			company = (Company) userHibController.getUserById(Integer.parseInt(id));
+			gson.registerTypeAdapter(Company.class, new CompanyGsonSerializer()).registerTypeAdapter(LocalDate.class, new LocalDateGsonSerializer());
+		}
 		Gson parser = gson.create();
 
-		if (user == null) {
+		/*if (user == null) {
+			return "No user by given ID";
+		}*/
+		if (person == null && company == null) {
 			return "No user by given ID";
 		}
-		return parser.toJson(user);
+		//return parser.toJson(person);
+		return person != null ? parser.toJson(person) : parser.toJson(company);
 	}
 
-   /* @RequestMapping(value = "/user/updateInfo", method = RequestMethod.PUT)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    public String updateUser(@RequestBody String request) {
-        Gson parser = new Gson();
-        Properties data = parser.fromJson(request, Properties.class);
-        String surname = data.getProperty("surname");
-        String email = data.getProperty("email");
-        String phone = data.getProperty("phone");
-        String userId = data.getProperty("id");
+	@RequestMapping(value = "/user/updateInfo/{id}", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public String updateUser(@RequestBody String request, @PathVariable(name = "id") String id) {
+		Gson parser = new Gson();
+		User user = userHibController.getUserById(Integer.parseInt(id));
+		Person person = null;
+		Company company = null;
+		Properties data = parser.fromJson(request, Properties.class);
+		if (user.getClass() == Person.class) {
+			person = (Person) userHibController.getUserById(Integer.parseInt(id));
+			person.setPersonSurname(data.getProperty("personSurname"));
+			person.setPersonEmail(data.getProperty("personEmail"));
+			person.setPersonPosition(data.getProperty("personPosition"));
+			person.setPersonName(data.getProperty("personName"));
+		} else if (user.getClass() == Company.class) {
+			company = (Company) userHibController.getUserById(Integer.parseInt(id));
+			company.setCompanyName(data.getProperty("companyName"));
+			company.setCompanyPhoneNumber(data.getProperty("companyPhoneNumber"));
+			company.setCompanyRepresentative(data.getProperty("companyRepresentative"));
+			company.setCompanyAddress(data.getProperty("companyAddress"));
+		}
 
-        Employee employee = employeeHibernateControl.findEmployee(Integer.parseInt(userId));
+		/*if (person != null || company != null) {
+			try {
+				userHibController.editUser(user);
+			} catch (Exception e) {
+				return "Error while updating";
+			}
+		}*/
+		if (person == null && company == null) {
+			return "No user by given ID";
+		}
+		if (person != null) {
+			userHibController.editUser(person);
+		} else {
+			userHibController.editUser(company);
+		}
+		return "Update successful";
+	}
 
-        if (employee != null) {
-            employee.setSurname(surname);
-            employee.setEmail(email);
-            employee.setPhoneNumber(phone);
-            try {
-                employeeHibernateControl.edit(employee);
-            } catch (Exception e) {
-                return "Error while updating";
-            }
-        }
-        return "Update successful";
-    }*/
+	@RequestMapping(value = "/user/deleteUser/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public String updatePerson(@PathVariable(name = "id") int id) {
+		userHibController.removeUser(id);
+		User user = userHibController.getUserById(id);
+		if (user == null) {
+			return "Success";
+		}else{
+			return "User deletion was unsuccessful";
+		}
+
+	}
 }

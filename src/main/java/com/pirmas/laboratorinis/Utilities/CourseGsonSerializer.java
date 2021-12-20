@@ -15,7 +15,7 @@ public class CourseGsonSerializer implements JsonSerializer<Course> {
         personJson.addProperty("id", course.getId());
         personJson.addProperty("projectName", course.getCourseName());
         //personJson.addProperty("projectDescription", course.getProjectDescription());
-        //personJson.addProperty("dateCreated", course.getDateCreated().toString());
+        personJson.addProperty("dateCreated", course.getLocalDateCreated().toString());
         personJson.addProperty("endDate", course.getEndDate().toString());
         personJson.addProperty("expectedEndDate", course.getExpectedEndDate().toString());
         return personJson;

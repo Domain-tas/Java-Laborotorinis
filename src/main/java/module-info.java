@@ -18,6 +18,7 @@ module com.pirmas.laboratorinis {
 	opens com.pirmas.laboratorinis.ControllersFX to javafx.fxml;
 	opens com.pirmas.laboratorinis.DataStructures to javafx.fxml, org.hibernate.orm.core, java.persistence;
 	exports com.pirmas.laboratorinis.DataStructures;
+	opens java.base to javafx.fxml;
 	//exports com.pirmas.laboratorinis.Control;
 	//opens com.pirmas.laboratorinis.Control to javafx.fxml;
 //	exports com.pirmas.laboratorinis.nenaudojami;

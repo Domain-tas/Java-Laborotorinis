@@ -112,12 +112,27 @@ public class UserHibernateController {
 		try {
 			em = getEntityManager();
 			em.getTransaction().begin();
-			user = em.getReference(User.class, id);
+			CriteriaQuery query = em.getCriteriaBuilder().createQuery();
+			Root<User> from = query.from(User.class);
+			query.select(from);
+			query.where(
+					em.getCriteriaBuilder().equal(from.get("id"), id )
+			);
+			Query q = em.createQuery(query);
+			return (User)q.getResultList().get(0);
+		} catch (Exception e) {
+			System.out.println("User name or password was incorrect");
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+/*			user = em.getReference(User.class, id);
 			user.getId();
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println("No such user by given Id");
-		}
+		}*/
 		return user;
 	}
 
