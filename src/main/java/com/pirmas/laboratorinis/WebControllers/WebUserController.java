@@ -3,8 +3,10 @@ package com.pirmas.laboratorinis.WebControllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pirmas.laboratorinis.DataStructures.Company;
+import com.pirmas.laboratorinis.DataStructures.Course;
 import com.pirmas.laboratorinis.DataStructures.Person;
 import com.pirmas.laboratorinis.DataStructures.User;
+import com.pirmas.laboratorinis.HibernateControllers.CourseHibernateController;
 import com.pirmas.laboratorinis.HibernateControllers.UserHibernateController;
 import com.pirmas.laboratorinis.Utilities.CompanyGsonSerializer;
 import com.pirmas.laboratorinis.Utilities.LocalDateGsonSerializer;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Controller;
 public class WebUserController {
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseManagementSystem");
 	UserHibernateController userHibController = new UserHibernateController(entityManagerFactory);
+	CourseHibernateController courseHibController = new CourseHibernateController(entityManagerFactory);
 
 	@RequestMapping(value = "/user/userLogin", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -156,5 +159,39 @@ public class WebUserController {
 			return "User deletion was unsuccessful";
 		}
 
+	}
+	@RequestMapping(value = "/user/addCourse/{id}", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public String addCourseToUser(@PathVariable(name = "id") int userId, @RequestBody String courseId) {
+		Gson parser = new Gson();
+		Properties data = parser.fromJson(courseId, Properties.class);
+		User user = userHibController.getUserById(userId);
+		Course course = courseHibController.getCourseById(Integer.parseInt(data.getProperty("courseId")));
+		user.addUserCourses(course);
+		if (user == null) {
+			return "No such User by given ID";
+		}else if(course==null){
+			return "No such Course by given ID";
+		}
+		userHibController.editUser(user);
+		return "Course added successfully";
+	}
+	@RequestMapping(value = "/user/removeCourse/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public String removeCourseFromUser(@PathVariable(name = "id") int userId, @RequestBody String courseId) {
+		Gson parser = new Gson();
+		Properties data = parser.fromJson(courseId, Properties.class);
+		User user = userHibController.getUserById(userId);
+		Course course = courseHibController.getCourseById(Integer.parseInt(data.getProperty("courseId")));
+		user.removeUserCourses(course);
+		if (user == null) {
+			return "No such User by given ID";
+		}else if(course==null){
+			return "No such Course by given ID";
+		}
+		userHibController.editUser(user);
+		return "Course removed successfully";
 	}
 }
